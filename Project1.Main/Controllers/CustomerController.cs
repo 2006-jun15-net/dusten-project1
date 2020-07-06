@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,16 +18,25 @@ namespace Project1.Main.Controllers {
             mStoreRepository = storeRepository;
         }
 
-        public IActionResult Index (string firstname, string lastname) {
+        public IActionResult Index () {
+            return View (new CustomerViewModel ());
+        }
 
-            var customer = mCustomerRepository.FindByName (firstname, lastname);
+        [HttpGet]
+        public IActionResult Home (CustomerViewModel customerModel) {
+
+            var customer = mCustomerRepository.FindByName (
+                            customerModel.Firstname, customerModel.Lastname);
+
             var stores = mStoreRepository.FindAll;
 
-            return View (new CustomerViewModel {
+            var storesModel = new StoresViewModel {
 
                 LastVisitedStore = customer.LastVisited.Name,
-                StoreOptions = stores.Select ( s => s.Name)
-            });
+                StoreOptions = stores.Select (s => s.Name)
+            };
+
+            return View (storesModel);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$("#login-form").submit(function () {
 
-// Write your JavaScript code.
+    let form_data = $(this).serialize();
+    window.location.href = "customer/home?" + form_data;
+
+    return false;
+});

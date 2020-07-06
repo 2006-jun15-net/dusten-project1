@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Project1.DataAccess.Model;
+using Project1.Business;
+using Project1.DataAccess.Repository;
 
 namespace Project1.Main {
 
@@ -26,6 +24,9 @@ namespace Project1.Main {
 
             services.AddDbContext<Project0Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+
+            services.AddScoped <ICustomerRepository, CustomerRepository> ();
+            services.AddScoped <IStoreRepository, StoreRepository> ();
 
             services.AddControllersWithViews ();
         }
@@ -52,7 +53,7 @@ namespace Project1.Main {
                 endpoints.MapControllerRoute (
 
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Customer}/{action=Index}/{id?}");
             });
         }
     }

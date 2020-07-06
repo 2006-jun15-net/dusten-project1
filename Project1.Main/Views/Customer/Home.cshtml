@@ -1,0 +1,45 @@
+﻿@model StoresViewModel
+
+@{
+    ViewData["Title"] = Html.DisplayFor (m => m.CustomerName);
+}
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" id="stores-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Stores
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="stores-dropdown">
+                            @foreach (var option in Model.StoreOptions) {
+                                <a class="dropdown-item" href="#">@Html.DisplayFor(m => option)</a>
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="text-center">
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.LastVisitedStore)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(m => m.LastVisitedStore)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

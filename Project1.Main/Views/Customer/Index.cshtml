@@ -1,36 +1,16 @@
 ﻿@model CustomerViewModel
 
 @{
-    ViewData["Title"] = "Select a Store";
+    ViewData["Title"] = "Customer Login";
 }
 
 <div class="text-center">
-    <table>
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(m => m.LastVisitedStore)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Html.DisplayFor(m => m.LastVisitedStore)</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <table>
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(m => m.StoreOptions)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var option in Model.StoreOptions)
-            { 
-            <tr>
-                <td>@Html.DisplayFor(m => option)</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    <form id="login-form">
+        @Html.LabelFor(m => m.Firstname)
+        @Html.TextBoxFor(m => m.Firstname, new { @class = "form-control", @placeholder = "First name", @required = "required" })
+        @Html.LabelFor(m => m.Lastname)
+        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control", @placeholder = "Last name", @required = "required" })
+        <input type="submit" value="Login" class="form-control" />
+    </form>
 </div>

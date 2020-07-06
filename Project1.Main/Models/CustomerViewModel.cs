@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Project1.Main.Models {
+
     public class CustomerViewModel {
 
-        [Display (Name = "Last Visited Store")]
-        public string LastVisitedStore { get; set; }
+        [RegularExpression (@"^[A-Z][a-z]+")]
+        public string Firstname { get; set; }
 
-        [Display (Name = "Options")]
-        public IEnumerable<string> StoreOptions { get; set; }
+        [RegularExpression (@"^[A-Z][a-z]+")]
+        public string Lastname { get; set; }
     }
 }

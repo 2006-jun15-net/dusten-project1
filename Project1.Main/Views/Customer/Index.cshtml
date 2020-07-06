@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CustomerViewModel
+
 @{
+    ViewData["Title"] = "Select a Store";
 }
+
+<div class="text-center">
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.LastVisitedStore)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(m => m.LastVisitedStore)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.StoreOptions)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var option in Model.StoreOptions)
+            { 
+            <tr>
+                <td>@Html.DisplayFor(m => option)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

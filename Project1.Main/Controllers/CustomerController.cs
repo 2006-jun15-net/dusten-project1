@@ -11,16 +11,24 @@ namespace Project1.Main.Controllers {
     public class CustomerController : Controller {
 
         private readonly ICustomerRepository mCustomerRepository;
+        private readonly IStoreRepository mStoreRepository;
 
-        public CustomerController (ICustomerRepository customerRepository) {
+        public CustomerController (ICustomerRepository customerRepository, IStoreRepository storeRepository) {
+
             mCustomerRepository = customerRepository;
+            mStoreRepository = storeRepository;
         }
 
-        [HttpGet]
         public IActionResult Index (string firstname, string lastname) {
 
             var customer = mCustomerRepository.FindByName (firstname, lastname);
-            return View (customer);
+            var stores = mStoreRepository.FindAll;
+
+            return View (new CustomerViewModel {
+
+                LastVisitedStore = customer.LastVisited.Name,
+                StoreOptions = stores.Select ( s => s.Name)
+            });
         }
     }
 }

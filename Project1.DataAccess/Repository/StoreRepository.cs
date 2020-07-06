@@ -15,7 +15,7 @@ namespace Project1.DataAccess.Repository {
             get => mContext.Store.Select (s => new StoreModel { Name = s.Name });
         }
 
-        public StoreRepository (Project0Context context) 
+        public StoreRepository (Project0Context context)
             : base (context) { }
 
         /// <summary>
@@ -27,23 +27,18 @@ namespace Project1.DataAccess.Repository {
 
             return mContext.Store.Where (s => s.Name == name)
                 .Include (s => s.StoreStock).ThenInclude (st => st.Product)
-                .Select (s => 
-                    new StoreModel {
+                .Select (s => new StoreModel {
 
-                        StoreStock = s.StoreStock.Select (
-                            
-                            st => new StoreStockModel {
+                    StoreStock = s.StoreStock.Select (st => new StoreStockModel {
 
-                                Product = new ProductModel {
+                        Product = new ProductModel {
 
-                                    Name = st.Product.Name,
-                                    Price = st.Product.Price
-                                }
-                            }
-                        ),
-                        Name = s.Name
-                    }
-                ).First ();
+                            Name = st.Product.Name,
+                            Price = st.Product.Price
+                        }
+                    }),
+                    Name = s.Name
+                }).First ();
         }
     }
 }

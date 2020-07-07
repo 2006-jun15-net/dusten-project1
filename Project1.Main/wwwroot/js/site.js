@@ -48,13 +48,25 @@
         if ($(this).attr('value') == 'login') {
 
             url = '/Customer/Login';
-            $('#login-form').submit();
+
+            let form = $('#login-form');
+            form.validate();
+
+            if (form.valid()) {
+                form.submit();
+            }
         }
 
         else if ($(this).attr('value') == 'create') {
 
             url = '/Customer/Create';
-            $('#login-form').submit();
+
+            let form = $('#login-form');
+            form.validate();
+
+            if (form.valid()) {
+                form.submit();
+            }
         }
     });
 

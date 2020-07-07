@@ -8,6 +8,8 @@ namespace Project1.DataAccess.Repository {
 
     public class CustomerOrderRepository : Repository, ICustomerOrderRepository {
 
+        public CustomerOrderRepository () : base () { }
+
         public virtual IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId) {
 
             if (customerId == null) {

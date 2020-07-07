@@ -1,15 +1,42 @@
-﻿$("#login-form").submit(function () {
+﻿$(document).ready(function () {
 
-    let formData = $(this).serialize();
+    var url = '';
 
-    alert(formData);
+    $("#login-form").submit(function () {
 
-    $.post('/Customer/Home', formData, function (response) {
+        let formData = $(this).serialize();
 
-        if (response.success) {
-            window.location.href = '/Customer/Home';
+        alert(url);
+
+        $.post(url, formData, function (response) {
+
+            if (response.success) {
+                window.location.href = '/Customer/Home';
+            }
+
+            else {
+                alert(response.responseText);
+            }
+        });
+
+        return false;
+    });
+
+    $('#login-form button').click(function (event) {
+
+        event.preventDefault();
+
+        if ($(this).attr('value') == 'login') {
+
+            url = '/Customer/Home';
+            $('#login-form').submit();
+        }
+
+        else if ($(this).attr('value') == 'create') {
+
+            url = '/Customer/Create';
+            $('#login-form').submit();
         }
     });
 
-    return false;
 });

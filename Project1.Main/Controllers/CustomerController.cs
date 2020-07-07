@@ -31,8 +31,9 @@ namespace Project1.Main.Controllers {
             var stores = mStoreRepository.FindAll;
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
 
-            var storesModel = new StoresViewModel {
+            var storesModel = new LandingPageViewModel {
 
+                CustomerName = customer.Name,
                 LastVisitedStore = customer.LastVisited.Name,
                 StoreOptions = stores.Select (s => s.Name)
             };

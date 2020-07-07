@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project1.Main.Models {
-    public class StoresViewModel {
+    public class LandingPageViewModel {
 
         public string CustomerName { get; set; }
 

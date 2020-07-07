@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Project1.Business {
+﻿namespace Project1.Business {
 
     public class ProductModel {
 

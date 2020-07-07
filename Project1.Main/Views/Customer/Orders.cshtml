@@ -1,0 +1,21 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+@{
+    if (Model.CustomerOrders.Count() == 0) {
+        <h3>Customer has no orders</h3>
+    }
+
+    else {
+
+        foreach (var order in Model.CustomerOrders) {
+            <h1>@Html.DisplayFor(m => order)</h1>
+        }
+    }
+}
+

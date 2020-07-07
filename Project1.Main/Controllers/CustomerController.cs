@@ -14,11 +14,15 @@ namespace Project1.Main.Controllers {
 
         private readonly ICustomerRepository mCustomerRepository;
         private readonly IStoreRepository mStoreRepository;
+        private readonly ICustomerOrderRepository mCustomerOrderRepository;
 
-        public CustomerController (ICustomerRepository customerRepository, IStoreRepository storeRepository) {
+        public CustomerController (ICustomerRepository customerRepository, 
+                                    IStoreRepository storeRepository,
+                                    ICustomerOrderRepository customerOrderRepository) {
 
             mCustomerRepository = customerRepository;
             mStoreRepository = storeRepository;
+            mCustomerOrderRepository = customerOrderRepository;
         }
 
         public IActionResult Index () {
@@ -28,8 +32,17 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public IActionResult Home () {
 
-            var stores = mStoreRepository.FindAll;
+            if (!ModelState.IsValid) {
+                return BadRequest ();
+            }
+
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
+
+            if (customer == default) {
+                return Forbid ();
+            }
+
+            var stores = mStoreRepository.FindAll;
 
             var storesModel = new LandingPageViewModel {
 
@@ -41,11 +54,29 @@ namespace Project1.Main.Controllers {
             return View (storesModel);
         }
 
+        [HttpGet]
+        public IActionResult Orders () {
+
+            if (!ModelState.IsValid) {
+                return BadRequest ();
+            }
+
+            var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
+
+            if (customer == default) {
+                return Forbid ();
+            }
+
+            var orders = mCustomerOrderRepository.FindOrdersByCustomer (customer.Id);
+
+            return View (orders);
+        }
+
         [HttpPost]
         public IActionResult Home (string firstname, string lastname) {
 
             if (!ModelState.IsValid) {
-                return Json (new {success = false, responseText = "Invalid request state"});
+                return Json (new { success = false, responseText = "Invalid request state" });
             }
 
             var customer = mCustomerRepository.FindByName (firstname, lastname);
@@ -56,23 +87,23 @@ namespace Project1.Main.Controllers {
 
             HttpContext.Session.Set<CustomerModel> (SESSION_KEY, customer);
 
-            return Json (new {success = true, responseText = "Success!"});
+            return Json (new { success = true, responseText = "Success!" });
         }
 
         [HttpPost]
         public IActionResult Create (string firstname, string lastname) {
 
             if (!ModelState.IsValid) {
-                return Json (new {success = false, responseText = "Invalid request state"});
+                return Json (new { success = false, responseText = "Invalid request state" });
             }
 
             var newCustomer = mCustomerRepository.Add (firstname, lastname);
 
             if (newCustomer == default) {
-                return Json (new {success = false, responseText = $"Customer {firstname} {lastname} already exists!"});
+                return Json (new { success = false, responseText = $"Customer {firstname} {lastname} already exists!" });
             }
 
-            return Json (new {success = true, responseText = "New user created!"});
+            return Json (new { success = true, responseText = "New user created!" });
         }
     }
 }

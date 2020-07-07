@@ -42,6 +42,7 @@ namespace Project1.DataAccess.Repository {
             return mContext.Customer.Where (c => (c.Firstname == firstname) && (c.Lastname == lastname))
                 .Include (c => c.Store).Select (c => new CustomerModel {
 
+                    Id = c.Id,
                     Name = c.Firstname + " " + c.Lastname,
 
                     LastVisited = new StoreModel {
@@ -65,6 +66,8 @@ namespace Project1.DataAccess.Repository {
             });
 
             return new CustomerModel {
+
+                Id = null,
                 Name = firstname + " " + lastname
             };
         }

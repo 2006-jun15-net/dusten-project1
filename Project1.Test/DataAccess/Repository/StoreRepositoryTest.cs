@@ -6,6 +6,7 @@ using Moq;
 
 using Project1.DataAccess.Repository;
 using Project1.DataAccess.Model;
+using Project1.Business;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -17,21 +18,12 @@ namespace Project1.Test.DataAccess.Repository {
 
             var mockStoreRepo = new Mock<StoreRepository> ();
 
-            List<Store> stores = new List<Store> () {
+            List<StoreModel> stores = new List<StoreModel> () {
 
-                new Store {
-
-                    Id = 1,
+                new StoreModel {
                     Name = "Test"
                 }
             };
-
-            // Find by Id
-            mockStoreRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ()) 
-            ).Returns (
-                (int i) => stores.SingleOrDefault (s => s.Id == i)
-            );
 
             // Find by name
             mockStoreRepo.Setup (
@@ -57,16 +49,6 @@ namespace Project1.Test.DataAccess.Repository {
 
             var storeByName = mStoreRepository.FindByName ("Not a store");
             Assert.Same (default(Store), storeByName);
-        }
-
-        [Fact]
-        public void TestFindByNameHasId () {
-
-            var storeByName = mStoreRepository.FindByName ("Test");
-            var storeById = mStoreRepository.FindById (1);
-
-            Assert.Equal (storeByName.Name, storeById.Name);
-            Assert.Equal (storeById.Id, storeByName.Id);
         }
     }
 }

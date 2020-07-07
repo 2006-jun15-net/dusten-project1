@@ -1,7 +1,15 @@
 ﻿$("#login-form").submit(function () {
 
-    let form_data = $(this).serialize();
-    window.location.href = "customer/home?" + form_data;
+    let formData = $(this).serialize();
+
+    alert(formData);
+
+    $.post('/Customer/Home', formData, function (response) {
+
+        if (response.success) {
+            window.location.href = '/Customer/Home';
+        }
+    });
 
     return false;
 });

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Project1.DataAccess.Model;
 
 using Project1.Business;
+using System.Diagnostics;
 
 namespace Project1.DataAccess.Repository {
 
@@ -38,16 +39,34 @@ namespace Project1.DataAccess.Repository {
 
         public virtual CustomerModel FindByName (string firstname, string lastname) {
 
-            return mContext.Customer.Where (c => c.Firstname == firstname && c.Lastname == lastname)
+            return mContext.Customer.Where (c => (c.Firstname == firstname) && (c.Lastname == lastname))
                 .Include (c => c.Store).Select (c => new CustomerModel {
 
-                    Name = c.Firstname + c.Lastname,
+                    Name = c.Firstname + " " + c.Lastname,
 
                     LastVisited = new StoreModel {
                         Name = (c.Store == default ? "" : c.Store.Name)
                     }
 
-                }).First ();
+                }).FirstOrDefault ();
+        }
+
+        public virtual CustomerModel Add (string firstname, string lastname) {
+
+            var existingCustomer = mContext.Customer.Where (c => c.Firstname == firstname && c.Lastname == lastname).FirstOrDefault ();
+
+            if (existingCustomer != default) {
+                return default;
+            }
+
+            mContext.Customer.Add (new Customer {
+                Firstname = firstname,
+                Lastname = lastname
+            });
+
+            return new CustomerModel {
+                Name = firstname + " " + lastname
+            };
         }
     }
 }

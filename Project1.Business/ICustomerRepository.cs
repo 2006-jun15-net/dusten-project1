@@ -8,6 +8,6 @@ namespace Project1.Business {
 
         IEnumerable<CustomerModel> FindAll { get; }
         CustomerModel FindByName (string firstname, string lastname);
-        void Add (CustomerModel customer);
+        CustomerModel Add (string firstname, string lastname);
     }
 }

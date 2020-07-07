@@ -7,10 +7,17 @@
 <div class="text-center">
 
     <form id="login-form">
-        @Html.LabelFor(m => m.Firstname)
-        @Html.TextBoxFor(m => m.Firstname, new { @class = "form-control", @placeholder = "First name", @required = "required" })
-        @Html.LabelFor(m => m.Lastname)
-        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control", @placeholder = "Last name", @required = "required" })
-        <input type="submit" value="Login" class="form-control" />
+
+        <label for="firstname">Firstname</label>
+        <input type="text" name="firstname" class="form-control" />
+
+        <label for="lastname">Lastname</label>
+        <input type="text" name="lastname" class="form-control" />
+
+        <span>
+            <input type="submit" value="Login" class="form-control" />
+            <input type="submit" value="Create" class="form-control" />
+        </span>
+
     </form>
 </div>

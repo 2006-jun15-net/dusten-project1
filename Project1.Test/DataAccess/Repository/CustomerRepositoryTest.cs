@@ -6,6 +6,7 @@ using Moq;
 
 using Project1.DataAccess.Repository;
 using Project1.DataAccess.Model;
+using Project1.Business;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -17,33 +18,21 @@ namespace Project1.Test.DataAccess.Repository {
 
             var mockCustomerRepo = new Mock<CustomerRepository> ();
 
-            List<Customer> customers = new List<Customer> () {
+            List<CustomerModel> customers = new List<CustomerModel> () {
 
-                new Customer {
-
-                    Firstname = "Test",
-                    Lastname = "One",
-                    Id = 1
+                new CustomerModel {
+                    Name = "Test One"
                 },
 
-                new Customer {
-
-                    Firstname = "Test",
-                    Lastname = "Two",
-                    Id = 2
+                new CustomerModel {
+                    Name = "Test Two"
                 }
             };
-
-            mockCustomerRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ())  
-            ).Returns (
-                (int id) => customers.Where (c => c.Id == id).FirstOrDefault ()
-            );
             
             mockCustomerRepo.Setup (
-                repo => repo.FindByName (It.IsAny<string> ())  
+                repo => repo.FindByName (It.IsAny<string> (), It.IsAny<string> ())  
             ).Returns (
-                (string name) => customers.Where (c => c.Firstname + " " + c.Lastname == name).FirstOrDefault ()
+                (string firstname, string lastname) => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ()
             );
 
             mCustomerRepository = mockCustomerRepo.Object;
@@ -52,7 +41,7 @@ namespace Project1.Test.DataAccess.Repository {
         [Fact]
         public void TestFindByNameSuccess () {
 
-            var customerByName = mCustomerRepository.FindByName ("Test One");
+            var customerByName = mCustomerRepository.FindByName ("Test", "One");
 
             Assert.NotSame (default(Customer), customerByName);
             Assert.Equal ("Test One", customerByName.Name);
@@ -61,18 +50,8 @@ namespace Project1.Test.DataAccess.Repository {
         [Fact]
         public void TestFindByNameFail () {
 
-            var customerByName = mCustomerRepository.FindByName ("Test Three");
+            var customerByName = mCustomerRepository.FindByName ("Test", "Three");
             Assert.Same (default(Customer), customerByName);
-        }
-
-        [Fact]
-        public void TestFindByNameHasId () {
-
-            var customerByName = mCustomerRepository.FindByName ("Test Two");
-            var customerById = mCustomerRepository.FindById (2);
-
-            Assert.Equal (customerById.Id, customerByName.Id);
-            Assert.Equal (customerByName.Name, customerById.Name);
         }
     }
 }

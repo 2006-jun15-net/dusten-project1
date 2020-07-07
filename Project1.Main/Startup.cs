@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Project1.DataAccess.Model;
 using Project1.Business;
 using Project1.DataAccess.Repository;
+using System;
 
 namespace Project1.Main {
 
@@ -28,6 +29,15 @@ namespace Project1.Main {
             services.AddScoped <ICustomerRepository, CustomerRepository> ();
             services.AddScoped <IStoreRepository, StoreRepository> ();
 
+            services.AddDistributedMemoryCache ();
+
+            services.AddSession (options => {
+
+                options.IdleTimeout = TimeSpan.FromSeconds (10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews ();
         }
 
@@ -47,6 +57,7 @@ namespace Project1.Main {
             app.UseRouting ();
 
             app.UseAuthorization ();
+            app.UseSession ();
 
             app.UseEndpoints (endpoints => {
 

@@ -9,4 +9,13 @@
     <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Project1.Business\Project1.Business.csproj" />
+    <ProjectReference Include="..\Project1.DataAccess\Project1.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Business\" />
+  </ItemGroup>
+
 </Project>

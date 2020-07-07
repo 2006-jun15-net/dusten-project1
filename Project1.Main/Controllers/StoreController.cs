@@ -25,9 +25,7 @@ namespace Project1.Main.Controllers {
                 return NotFound ();
             }
 
-            return View (new StoreViewModel {
-                Name = store.Name
-            });
+            return View (store);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿namespace Project1.Business {
+
     public class CustomerModel {
 
         private StoreModel mLastVisited;

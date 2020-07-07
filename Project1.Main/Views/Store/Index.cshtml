@@ -1,0 +1,12 @@
+﻿@model Project1.Business.StoreModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Model.Name</h1>
+
+@foreach(var stock in Model.StoreStock) {
+    <h2>@Html.DisplayFor(m => stock)</h2>
+} 
+

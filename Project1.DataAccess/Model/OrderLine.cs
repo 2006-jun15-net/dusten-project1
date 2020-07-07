@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Project1.DataAccess.Model
+﻿namespace Project1.DataAccess.Model
 {
     public partial class OrderLine : IModel
     {

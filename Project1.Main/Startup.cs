@@ -28,6 +28,7 @@ namespace Project1.Main {
 
             services.AddScoped <ICustomerRepository, CustomerRepository> ();
             services.AddScoped <IStoreRepository, StoreRepository> ();
+            services.AddScoped <ICustomerOrderRepository, CustomerOrderRepository> ();
 
             services.AddDistributedMemoryCache ();
 

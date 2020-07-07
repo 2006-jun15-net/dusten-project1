@@ -24,6 +24,7 @@ namespace Project1.Main.Controllers {
             mCustomerOrderRepository = customerOrderRepository;
         }
 
+        [HttpGet]
         public IActionResult Index () {
             return View (new CustomerViewModel ());
         }
@@ -72,11 +73,14 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Home (string firstname, string lastname) {
+        public IActionResult Login ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             if (!ModelState.IsValid) {
-                return Json (new { success = false, responseText = "Invalid request state" });
+                return Json (new { success = false, responseText = "Validation error" });
             }
+
+            var firstname = customerView.Firstname;
+            var lastname = customerView.Lastname;
 
             var customer = mCustomerRepository.FindByName (firstname, lastname);
 
@@ -90,7 +94,10 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Create (string firstname, string lastname) {
+        public IActionResult Create ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
+
+            var firstname = customerView.Firstname;
+            var lastname = customerView.Lastname;
 
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Invalid request state" });

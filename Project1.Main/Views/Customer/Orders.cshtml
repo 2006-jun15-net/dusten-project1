@@ -4,19 +4,41 @@
     ViewData["Title"] = "Orders";
 }
 
-<h1>Orders</h1>
-
 @{
-    if (Model.CustomerOrders.Count() == 0) {
-        <h3>Customer has no orders</h3>
+    if (Model.CustomerOrders.Count () == 0) {
+        <h2>@Model.CustomerName has no orders</h2>
     }
 
     else {
 
-        foreach (var order in Model.CustomerOrders) {
-            <h1>@Html.DisplayFor(m => order)</h1>
+        <h2>Orders for @Model.CustomerName:</h2>
+
+        @foreach (var order in Model.CustomerOrders) {
+
+            <h3>Order #@Html.DisplayFor(m => order.OrderNumber)</h3>
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var line in order.OrderLine) {
+                        <tr>
+                            <td>@Html.DisplayFor(m => line.Product.Name)</td>
+                            <td>@Html.DisplayFor(m => line.Product.DisplayPrice)</td>
+                            <td>@Html.DisplayFor(m => line.ProductQuantity)</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <h3>Order total: @Html.DisplayFor(m => order.TotalPrice)</h3>
         }
-        // TODO Link to store from store name
     }
 }
 

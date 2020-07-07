@@ -100,7 +100,7 @@ namespace Project1.Main.Controllers {
             var lastname = customerView.Lastname;
 
             if (!ModelState.IsValid) {
-                return Json (new { success = false, responseText = "Invalid request state" });
+                return Json (new { success = false, responseText = "Validation error" });
             }
 
             var newCustomer = mCustomerRepository.Add (firstname, lastname);

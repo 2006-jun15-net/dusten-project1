@@ -7,12 +7,16 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
                 <ul class="navbar-nav flex-grow-1">
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-dark" href="#" id="stores-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Stores
@@ -20,15 +24,21 @@
                         <div id="stores-menu" class="dropdown-menu" aria-labelledby="stores-dropdown">
                             @foreach (var option in Model.StoreOptions) {
                                 <form class="dropdown-item" action="/Store">
-                                    <input type="hidden" value="@Html.DisplayFor(m => option)" />
+                                    <input type="hidden" name="name" value="@Html.DisplayFor(m => option)" />
                                     <input type="submit" value="@Html.DisplayFor(m => option)" />
                                 </form>
                             }
                         </div>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link text-dark" href="/Customer/Orders">Orders</a>
                     </li>
+
                 </ul>
+
             </div>
+
         </div>
     </nav>
 </header>
@@ -45,7 +55,7 @@
             <tr>
                 <td>
                     <form class="dropdown-item" action="/Store">
-                        <input type="hidden" value="@Html.DisplayFor(m => m.LastVisitedStore)" />
+                        <input type="hidden" name="name" value="@Html.DisplayFor(m => m.LastVisitedStore)" />
                         <input type="submit" value="@Html.DisplayFor(m => m.LastVisitedStore)" />
                     </form>
                 </td>

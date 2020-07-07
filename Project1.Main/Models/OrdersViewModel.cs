@@ -7,5 +7,6 @@ namespace Project1.Main.Models {
     public class OrdersViewModel {
 
         public IEnumerable<CustomerOrderModel> CustomerOrders { get; set; }
+        public string CustomerName { get; set; }
     }
 }

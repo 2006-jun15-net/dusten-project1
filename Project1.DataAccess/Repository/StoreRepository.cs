@@ -25,6 +25,8 @@ namespace Project1.DataAccess.Repository {
 
         public virtual StoreModel FindByName (string name) {
 
+            System.Diagnostics.Debug.WriteLine ($"Store name: {name}");
+
             return mContext.Store.Where (s => s.Name == name)
                 .Include (s => s.StoreStock).ThenInclude (st => st.Product)
                 .Select (s => new StoreModel {
@@ -35,7 +37,8 @@ namespace Project1.DataAccess.Repository {
 
                             Name = st.Product.Name,
                             Price = st.Product.Price
-                        }
+                        },
+                        ProductQuantity = st.ProductQuantity
                     }),
                     Name = s.Name
                 }).First ();

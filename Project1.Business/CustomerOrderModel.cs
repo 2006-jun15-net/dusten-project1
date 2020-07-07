@@ -13,22 +13,18 @@ namespace Project1.Business {
         public string CustomerName { get; set; }
         public IEnumerable<OrderLineModel> OrderLine { get; set; }
 
-        public override string ToString () {
+        public string TotalPrice {
 
-            // TODO HTML code instead of raw string?
+            get {
 
-            string output = $"Order #{OrderNumber} placed at {StoreName} on {Timestamp:MM/dd/yy}:\n";
+                double total = 0.0;
 
-            double total = 0.0;
+                foreach (var line in OrderLine) {
+                    total += line.Product.Price * line.ProductQuantity;
+                }
 
-            foreach (var line in OrderLine) {
-
-                output += $"\t{line}";
-                total += line.Product.Price * line.ProductQuantity;
+                return $"${total:0.00}";
             }
-
-            output += $"\n\tOrder total: ${total:#.00}\n";
-            return output;
         }
     }
 }

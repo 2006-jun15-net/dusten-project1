@@ -8,9 +8,5 @@ namespace Project1.Business {
 
         public ProductModel Product { get; set; }
         public int ProductQuantity { get; set; }
-
-        public override string ToString () {
-            return $"{Product.Name} ({ProductQuantity})";
-        }
     }
 }

@@ -1,12 +1,32 @@
 ﻿@model Project1.Business.StoreModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Model.Name;
 }
 
 <h1>@Model.Name</h1>
 
-@foreach(var stock in Model.StoreStock) {
-    <h2>@Html.DisplayFor(m => stock)</h2>
-} 
+<h3>Products:</h3>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach(var stock in Model.StoreStock) {
+            <tr>
+                <td>@Html.DisplayFor(m => stock.Product.Name)</td>
+                <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
+                <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
 

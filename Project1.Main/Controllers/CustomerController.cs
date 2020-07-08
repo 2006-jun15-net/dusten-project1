@@ -61,7 +61,11 @@ namespace Project1.Main.Controllers {
 
             var orders = mCustomerOrderRepository.FindOrdersByCustomer (customer.Id);
 
-            return View (orders);
+            return View (new OrdersViewModel {
+
+                CustomerOrders = orders,
+                CustomerName = customer.Name
+            });
         }
 
         [HttpPost]

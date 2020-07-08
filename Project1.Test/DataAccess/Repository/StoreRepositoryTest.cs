@@ -5,7 +5,6 @@ using Xunit;
 using Moq;
 
 using Project1.DataAccess.Repository;
-using Project1.DataAccess.Model;
 using Project1.Business;
 
 namespace Project1.Test.DataAccess.Repository {
@@ -41,14 +40,14 @@ namespace Project1.Test.DataAccess.Repository {
         public void TestFindByNameSuccess () {
 
             var storeByName = mStoreRepository.FindByName ("Test");
-            Assert.NotSame (default(Store), storeByName);
+            Assert.NotSame (default(StoreModel), storeByName);
         }
 
         [Fact]
         public void TestFindByNameFail () {
 
             var storeByName = mStoreRepository.FindByName ("Not a store");
-            Assert.Same (default(Store), storeByName);
+            Assert.Same (default(StoreModel), storeByName);
         }
     }
 }

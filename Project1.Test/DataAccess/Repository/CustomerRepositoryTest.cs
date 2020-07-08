@@ -5,7 +5,6 @@ using Xunit;
 using Moq;
 
 using Project1.DataAccess.Repository;
-using Project1.DataAccess.Model;
 using Project1.Business;
 
 namespace Project1.Test.DataAccess.Repository {
@@ -43,7 +42,7 @@ namespace Project1.Test.DataAccess.Repository {
 
             var customerByName = mCustomerRepository.FindByName ("Test", "One");
 
-            Assert.NotSame (default(Customer), customerByName);
+            Assert.NotSame (default(CustomerModel), customerByName);
             Assert.Equal ("Test One", customerByName.Name);
         }
 
@@ -51,7 +50,7 @@ namespace Project1.Test.DataAccess.Repository {
         public void TestFindByNameFail () {
 
             var customerByName = mCustomerRepository.FindByName ("Test", "Three");
-            Assert.Same (default(Customer), customerByName);
+            Assert.Same (default(CustomerModel), customerByName);
         }
     }
 }

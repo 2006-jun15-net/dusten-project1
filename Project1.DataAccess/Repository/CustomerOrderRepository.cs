@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project1.Business;
-
+using Project1.DataAccess.Model;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +8,12 @@ namespace Project1.DataAccess.Repository {
 
     public class CustomerOrderRepository : Repository, ICustomerOrderRepository {
 
-        public CustomerOrderRepository () : base () { }
+        public CustomerOrderRepository (Project0Context context) : base (context) { }
+
+        /// <summary>
+        /// FOR UNIT TESTS ONLY!!!!
+        /// </summary>
+        public CustomerOrderRepository () { }
 
         public virtual IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId) {
 

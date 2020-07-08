@@ -6,14 +6,26 @@
 trigger:
 - master
 
+pr:
+- master
+
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
+  
+variables:
+  solution: 'Project1.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Debug'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NuGetToolInstaller@1
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+    
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'

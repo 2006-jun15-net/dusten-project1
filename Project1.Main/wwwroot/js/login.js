@@ -46,27 +46,22 @@
         event.preventDefault();
 
         if ($(this).attr('value') == 'login') {
-
             url = '/Customer/Login';
-
-            let form = $('#login-form');
-            form.validate();
-
-            if (form.valid()) {
-                form.submit();
-            }
         }
 
         else if ($(this).attr('value') == 'create') {
-
             url = '/Customer/Create';
+        }
 
-            let form = $('#login-form');
-            form.validate();
+        else {
+            return false;
+        }
 
-            if (form.valid()) {
-                form.submit();
-            }
+        let form = $('#login-form');
+        form.validate();
+
+        if (form.valid()) {
+            form.submit();
         }
     });
 

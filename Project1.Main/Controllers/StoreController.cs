@@ -53,7 +53,7 @@ namespace Project1.Main.Controllers {
 
             var orders = mOrderRepository.FindOrdersByCustomerAndStore (customer.Id, store.Id);
 
-            return View (new OrdersViewModel {
+            return View ("~/Views/Store/Orders/List.cshtml", new OrdersViewModel {
 
                 CustomerOrders = orders,
                 CustomerName = customer.Name,
@@ -76,7 +76,7 @@ namespace Project1.Main.Controllers {
                 return NotFound ();
             }
 
-            return View (new StoreViewModel {
+            return View ("~/Views/Store/Orders/New.cshtml", new StoreViewModel {
 
                 Name = store.Name,
                 Stock = store.StoreStock
@@ -84,7 +84,8 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpPost]
-        public IActionResult CreateOrder () {
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateOrder (List<OrderLineModel> lines) {
             return View ();
         }
     }

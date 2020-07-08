@@ -34,7 +34,7 @@ namespace Project1.Main {
 
             services.AddSession (options => {
 
-                options.IdleTimeout = TimeSpan.FromSeconds (10);
+                //options.IdleTimeout = TimeSpan.FromSeconds (100);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -59,21 +59,23 @@ namespace Project1.Main {
 
             app.UseRouting ();
 
+            app.UseAuthentication ();
             app.UseAuthorization ();
+
             app.UseSession ();
 
             app.UseEndpoints (endpoints => {
 
                 endpoints.MapControllerRoute (
 
-                    name: "sotre_orders_new",
+                    name: "store_orders_new",
                     pattern: "Store/Orders/New",
                     defaults: new { controller = "Store", action = "NewOrder" }
                 );
 
                 endpoints.MapControllerRoute (
 
-                    name: "sotre_orders_list",
+                    name: "store_orders_list",
                     pattern: "Store/Orders/List",
                     defaults: new { controller = "Store", action = "ListOrders" }
                 );

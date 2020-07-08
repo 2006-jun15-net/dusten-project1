@@ -4,7 +4,12 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
 
 pr:
 - master
@@ -44,4 +49,3 @@ jobs:
       azureSubscription: 'Azure subscription 1(3c19313e-3624-464d-916e-a83d2254b3d7)'
       appType: 'webApp'
       WebAppName: '2006-project1-knull'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'

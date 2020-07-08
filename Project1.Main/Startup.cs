@@ -66,14 +66,14 @@ namespace Project1.Main {
 
                 endpoints.MapControllerRoute (
 
-                    name: "sotre_orders",
+                    name: "sotre_orders_new",
                     pattern: "Store/Orders/New",
                     defaults: new { controller = "Store", action = "NewOrder" }
                 );
 
                 endpoints.MapControllerRoute (
 
-                    name: "sotre_orders",
+                    name: "sotre_orders_list",
                     pattern: "Store/Orders/List",
                     defaults: new { controller = "Store", action = "ListOrders" }
                 );
@@ -81,7 +81,8 @@ namespace Project1.Main {
                 endpoints.MapControllerRoute (
 
                     name: "default",
-                    pattern: "{controller=Customer}/{action=Index}/{id?}");
+                    pattern: "{controller=Customer}/{action=Index}/{id?}"
+                );
             });
         }
     }

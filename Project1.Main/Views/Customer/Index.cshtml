@@ -14,6 +14,8 @@
 
         <form id="login-form">
 
+            @Html.AntiForgeryToken()
+
             <div class="form-group">
                 <label asp-for="Firstname">Firstname</label>
                 <input asp-for="Firstname" type="text" class="form-control" />

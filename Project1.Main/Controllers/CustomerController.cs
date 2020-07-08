@@ -69,6 +69,7 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             if (!ModelState.IsValid) {
@@ -90,6 +91,7 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             var firstname = customerView.Firstname;

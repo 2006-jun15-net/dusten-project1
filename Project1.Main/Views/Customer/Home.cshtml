@@ -23,10 +23,7 @@
                         </a>
                         <div id="stores-menu" class="dropdown-menu" aria-labelledby="stores-dropdown">
                             @foreach (var option in Model.StoreOptions) {
-                                <form class="dropdown-item" action="/Store">
-                                    <input type="hidden" name="name" value="@Html.DisplayFor(m => option)" />
-                                    <input type="submit" value="@Html.DisplayFor(m => option)" />
-                                </form>
+                                <a class="dropdown-item" href="/Store?name=@option">@Html.DisplayFor(m => option)</a>
                             }
                         </div>
                     </li>
@@ -54,10 +51,7 @@
         <tbody>
             <tr>
                 <td>
-                    <form class="dropdown-item" action="/Store">
-                        <input type="hidden" name="name" value="@Html.DisplayFor(m => m.LastVisitedStore)" />
-                        <input type="submit" value="@Html.DisplayFor(m => m.LastVisitedStore)" />
-                    </form>
+                    <a href="/Store?name=@Model.LastVisitedStore">@Html.DisplayFor(m => m.LastVisitedStore)</a>
                 </td>
             </tr>
         </tbody>

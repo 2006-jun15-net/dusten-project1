@@ -32,10 +32,6 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public IActionResult Home () {
 
-            if (!ModelState.IsValid) {
-                return BadRequest ();
-            }
-
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
 
             if (customer == default) {
@@ -56,10 +52,6 @@ namespace Project1.Main.Controllers {
 
         [HttpGet]
         public IActionResult Orders () {
-
-            if (!ModelState.IsValid) {
-                return BadRequest ();
-            }
 
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
 

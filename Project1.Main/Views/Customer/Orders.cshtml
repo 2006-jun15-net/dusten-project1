@@ -1,7 +1,7 @@
 ﻿@model OrdersViewModel
 
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "All Orders";
 }
 
 @{
@@ -13,33 +13,7 @@
 
         <h2>Orders for @Model.CustomerName:</h2>
 
-        @foreach (var order in Model.CustomerOrders) {
-
-            <h3>Order #@Html.DisplayFor(m => order.OrderNumber)</h3>
-            <table class="table">
-
-                <thead>
-                    <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Unit Price</th>
-                        <th scope="col">Quantity</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var line in order.OrderLine) {
-                        <tr>
-                            <td>@Html.DisplayFor(m => line.Product.Name)</td>
-                            <td>@Html.DisplayFor(m => line.Product.DisplayPrice)</td>
-                            <td>@Html.DisplayFor(m => line.ProductQuantity)</td>
-                        </tr>
-                    }
-                </tbody>
-
-            </table>
-            <h3>Order total: @Html.DisplayFor(m => order.TotalPrice)</h3>
-            <br />
-        }
+        await Html.RenderPartialAsync ("_DisplayCustomerOrders");
     }
 }
 

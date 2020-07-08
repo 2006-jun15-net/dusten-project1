@@ -23,12 +23,12 @@ namespace Project1.Main {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
 
-            services.AddDbContext<Project0Context>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+            services.AddDbContext<Project0Context> (options =>
+                 options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
 
-            services.AddScoped <ICustomerRepository, CustomerRepository> ();
-            services.AddScoped <IStoreRepository, StoreRepository> ();
-            services.AddScoped <ICustomerOrderRepository, CustomerOrderRepository> ();
+            services.AddScoped<ICustomerRepository, CustomerRepository> ();
+            services.AddScoped<IStoreRepository, StoreRepository> ();
+            services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository> ();
 
             services.AddDistributedMemoryCache ();
 
@@ -44,6 +44,8 @@ namespace Project1.Main {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+
+            // Middleware happens here
 
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
@@ -61,6 +63,20 @@ namespace Project1.Main {
             app.UseSession ();
 
             app.UseEndpoints (endpoints => {
+
+                endpoints.MapControllerRoute (
+
+                    name: "sotre_orders",
+                    pattern: "Store/Orders/New",
+                    defaults: new { controller = "Store", action = "NewOrder" }
+                );
+
+                endpoints.MapControllerRoute (
+
+                    name: "sotre_orders",
+                    pattern: "Store/Orders/List",
+                    defaults: new { controller = "Store", action = "ListOrders" }
+                );
 
                 endpoints.MapControllerRoute (
 

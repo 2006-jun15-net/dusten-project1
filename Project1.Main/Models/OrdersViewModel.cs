@@ -8,5 +8,6 @@ namespace Project1.Main.Models {
 
         public IEnumerable<CustomerOrderModel> CustomerOrders { get; set; }
         public string CustomerName { get; set; }
+        public string StoreName { get; set; }
     }
 }

@@ -40,7 +40,9 @@ namespace Project1.DataAccess.Repository {
                         },
                         ProductQuantity = st.ProductQuantity
                     }),
-                    Name = s.Name
+                    Name = s.Name,
+                    Id = s.Id
+
                 }).First ();
         }
     }

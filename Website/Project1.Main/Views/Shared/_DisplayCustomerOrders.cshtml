@@ -1,0 +1,65 @@
+﻿<div class="accordion" id="customer-orders">
+
+    @foreach (Project1.Business.CustomerOrderModel order in Model.CustomerOrders) {
+
+        <div class="card">
+
+            <div class="card-header" id="card-heading-@order.OrderNumber">
+
+                <span class="mb-0" style="display: flex; justify-content: space-between;">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#card-collapse-@order.OrderNumber"
+                            aria-expanded="true" aria-controls="card-collapse-@order.OrderNumber">
+                        Order #@Html.DisplayFor(m => order.OrderNumber)
+                    </button>
+
+                    @if (ViewData["ShowStoreName"].Equals (true)) {
+
+                        <span class="py-2">
+                            Store: @Html.DisplayFor(m => order.StoreName)
+                        </span>
+                    }
+
+                    <span class="py-2">
+                        Total: @Html.DisplayFor(m => order.TotalPrice)
+                    </span>
+                </span>
+            </div>
+
+            <div id="card-collapse-@order.OrderNumber" class="collapse" aria-labelledby="card-heading-@order.OrderNumber" data-parent="#customer-orders">
+                <div class="card-body">
+
+                    @if (order.OrderLine.Count () == 0) {
+                        <h4>This order is empty!</h4>
+                    }
+
+                    else {
+                        <table class="table">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">@Html.DisplayNameFor(m => order.OrderLine.First ().Product.Name)</th>
+                                    <th scope="col">@Html.DisplayNameFor(m => order.OrderLine.First ().Product.Price)</th>
+                                    <th scope="col">@Html.DisplayNameFor(m => order.OrderLine.First ().ProductQuantity)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var line in order.OrderLine) {
+                                    <tr>
+                                        <td>@Html.DisplayFor(m => line.Product.Name)</td>
+                                        <td>@Html.DisplayFor(m => line.Product.DisplayPrice)</td>
+                                        <td>@Html.DisplayFor(m => line.ProductQuantity)</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+

@@ -1,10 +1,12 @@
 ﻿using DataAnnotationsExtensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project1.Business {
 
     public class OrderLineModel {
 
         [Min(0)]
+        [Display(Name = "Quantity")]
         public int ProductQuantity { get; set; }
         public ProductModel Product { get; set; }
 

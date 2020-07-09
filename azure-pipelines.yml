@@ -10,6 +10,7 @@ trigger:
   paths:
     exclude:
     - README.md
+    - azure-pipelines.yml
 
 pr:
 - master
@@ -46,7 +47,7 @@ jobs:
       configuration: '$(buildConfiguration)'
     
   - task: SonarCloudAnalyze@1
-  
+
   - task: SonarCloudPublish@1
     inputs:
       pollingTimeoutSec: '300'

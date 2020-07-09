@@ -10,7 +10,6 @@ trigger:
   paths:
     exclude:
     - README.md
-    - azure-pipelines.yml
 
 pr:
 - master
@@ -25,6 +24,7 @@ jobs:
     solution: '**/*.sln'
     buildPlatform: 'Any CPU'
     buildConfiguration: 'Release'
+    system.debug: true
 
   steps:
   - task: NuGetToolInstaller@1
@@ -60,13 +60,21 @@ jobs:
   - task: CopyFiles@2
     inputs:
       contents: '_buildOutput/**'
-      targetFolder: $(Build.ArtifactStagingDirectory)
-    
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'publish'
-      publishLocation: 'filePath'
+      publishLocation: 'Container'
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      includeRootFolder: true
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
 
   - task: AzureRmWebAppDeployment@4
     inputs:
@@ -74,4 +82,4 @@ jobs:
       azureSubscription: 'Azure subscription 1(3c19313e-3624-464d-916e-a83d2254b3d7)'
       appType: 'webApp'
       WebAppName: '2006-project1-knull'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/publish'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'

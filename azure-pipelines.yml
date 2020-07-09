@@ -24,6 +24,7 @@ jobs:
     solution: '**/*.sln'
     buildPlatform: 'Any CPU'
     buildConfiguration: 'Release'
+    system.debug: true
 
   steps:
   - task: NuGetToolInstaller@1
@@ -31,13 +32,26 @@ jobs:
   - task: NuGetCommand@2
     inputs:
       restoreSolution: '$(solution)'
-    
+  
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: '2006-jun15-net'
+      scannerMode: 'MSBuild'
+      projectKey: '2006-jun15-net_dusten-project1'
+
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
     
+  - task: SonarCloudAnalyze@1
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+
   - task: VSTest@2
     inputs:
       platform: '$(buildPlatform)'
@@ -46,12 +60,12 @@ jobs:
   - task: CopyFiles@2
     inputs:
       contents: '_buildOutput/**'
-      targetFolder: $(Build.ArtifactStagingDirectory)
-    
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'PublishedOutput'
+      ArtifactName: 'publish'
       publishLocation: 'Container'
 
   - task: ArchiveFiles@2
@@ -68,3 +82,4 @@ jobs:
       azureSubscription: 'Azure subscription 1(3c19313e-3624-464d-916e-a83d2254b3d7)'
       appType: 'webApp'
       WebAppName: '2006-project1-knull'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'

@@ -3,6 +3,7 @@
 using Project1.Business;
 using Project1.Main.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Project1.Main.Controllers {
 
@@ -86,7 +87,10 @@ namespace Project1.Main.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateOrder (List<OrderLineModel> lines) {
-            return View ();
+
+            Debug.WriteLine (lines.Count);
+
+            return Json (new { success = true, responseText = "Success" });
         }
     }
 }

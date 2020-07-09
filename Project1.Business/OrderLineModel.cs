@@ -1,7 +1,10 @@
-﻿namespace Project1.Business {
+﻿using DataAnnotationsExtensions;
+
+namespace Project1.Business {
 
     public class OrderLineModel {
 
+        [Min(0)]
         public int ProductQuantity { get; set; }
         public ProductModel Product { get; set; }
 

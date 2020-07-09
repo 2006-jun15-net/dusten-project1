@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using Project1.Main.Models;
 
 namespace Project1.Main.Controllers {
@@ -15,6 +13,11 @@ namespace Project1.Main.Controllers {
 
         public HomeController (ILogger<HomeController> logger) {
             _logger = logger;
+        }
+
+        [HttpPost]
+        public IActionResult KeepSessionAlive () {
+            return Json (new { success = true });
         }
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

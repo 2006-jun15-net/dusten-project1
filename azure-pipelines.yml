@@ -39,6 +39,7 @@ jobs:
       organization: '2006-jun15-net'
       scannerMode: 'MSBuild'
       projectKey: '2006-jun15-net_dusten-project1'
+      extraProperties: 'sonar.exclusions=**/lib/**'
 
   - task: VSBuild@1
     inputs:

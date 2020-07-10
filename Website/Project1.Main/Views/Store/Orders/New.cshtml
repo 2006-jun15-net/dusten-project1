@@ -1,0 +1,57 @@
+﻿@model StoreViewModel
+
+@{
+    ViewData["title"] = "New Order";
+}
+
+@section navbar_items {
+
+}
+
+<div style="margin-left: 25%;">
+    <form id="new-order-form">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Available Stock</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var stock in Model.Stock) {
+                        <tr>
+                            <td>@Html.DisplayFor(m => stock.Product.Name)</td>
+                            <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
+                            <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
+                            <td><input class="form-control" type="number" max="@stock.ProductQuantity" min="0" name="ProductQuantity" value="0" /></td>
+
+                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Name)</td>
+                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Price)</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <span class="form-group">
+            <button type="submit" class="btn btn-primary">Finish</button>
+            <a href="/Store?name=@Model.Name" class="btn btn-primary">Exit</a>
+        </span>
+
+    </form>
+</div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/new_order.js" asp-append-version="true"></script>

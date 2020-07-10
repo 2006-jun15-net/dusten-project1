@@ -1,0 +1,44 @@
+﻿@model StoreViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@section navbar_items {
+
+}
+
+<h1>@Model.Name</h1>
+
+<h3>Products:</h3>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var stock in Model.Stock) {
+            <tr>
+                <td>@Html.DisplayFor(m => stock.Product.Name)</td>
+                <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
+                <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@if (Model.HasCustomer) {
+
+    <span>
+        <a href="/Store/Orders/List?name=@Model.Name">List Orders</a>
+        <a href="/Store/Orders/New?name=@Model.Name">New Order</a>
+    </span>
+}
+

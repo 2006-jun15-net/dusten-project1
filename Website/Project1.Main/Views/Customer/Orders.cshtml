@@ -1,0 +1,25 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewData["Title"] = "All Orders";
+    ViewData["ShowStoreName"] = true;
+}
+
+@section navbar_items {
+
+}
+
+@{
+    if (Model.CustomerOrders.Count () == 0) {
+        <h2>@Model.CustomerName has no orders</h2>
+    }
+
+    else {
+
+        <h2>Orders for @Model.CustomerName:</h2>
+        <br />
+
+        await Html.RenderPartialAsync ("_DisplayCustomerOrders");
+    }
+}
+

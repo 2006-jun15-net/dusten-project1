@@ -10,7 +10,10 @@ a.navbar-brand {
 /* Provide sufficient contrast against white background */
 a {
     color: #7c7870;
-    border: 2px solid #f6f7f8;
+}
+
+a:hover {
+    color: #5c5850;
 }
 
 .btn-primary {
@@ -90,6 +93,7 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    white-space: nowrap;
+    background-color: #efefef;
+    text-align: center;
     line-height: 60px; /* Vertically center the text there */
 }

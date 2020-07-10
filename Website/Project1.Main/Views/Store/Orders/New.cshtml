@@ -5,38 +5,52 @@
 }
 
 @section navbar_items {
-    
+
 }
 
-<form id="new-order-form">
+<div style="margin-left: 25%;">
+    <form id="new-order-form">
 
-    @Html.AntiForgeryToken()
-    @foreach (var stock in Model.Stock) {
+        @Html.AntiForgeryToken()
 
-        <div>
-            <span>
-                @Html.DisplayFor(m => stock.Product.Name)
-            </span>
+        <div class="form-group">
 
-            <span>
-                @Html.DisplayFor(m => stock.Product.Price)
-            </span>
+            <table class="table">
 
-            <span>
-                @Html.DisplayFor(m => stock.ProductQuantity)
-            </span>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Available Stock</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
 
-            <span>
-                <input class="form-control" type="number" max="@stock.ProductQuantity" min="0" name="ProductQuantity" value="0" />
-            </span>
+                <tbody>
+                    @foreach (var stock in Model.Stock) {
+                        <tr>
+                            <td>@Html.DisplayFor(m => stock.Product.Name)</td>
+                            <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
+                            <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
+                            <td><input class="form-control" type="number" max="@stock.ProductQuantity" min="0" name="ProductQuantity" value="0" /></td>
 
-            @Html.HiddenFor(m => stock.Product.Name)
-            @Html.HiddenFor(m => stock.Product.Price)
+                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Name)</td>
+                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Price)</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
         </div>
-    }
-    <button type="submit" class="btn btn-primary">Finish</button>
 
-</form>
+        <span class="form-group">
+            <button type="submit" class="btn btn-primary">Finish</button>
+            <a href="/Store?name=@Model.Name" class="btn btn-primary">Exit</a>
+        </span>
+
+    </form>
+</div>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

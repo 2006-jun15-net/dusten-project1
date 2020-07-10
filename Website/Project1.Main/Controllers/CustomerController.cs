@@ -15,7 +15,7 @@ namespace Project1.Main.Controllers {
         private readonly IStoreRepository mStoreRepository;
         private readonly ICustomerOrderRepository mCustomerOrderRepository;
 
-        public CustomerController (ICustomerRepository customerRepository, 
+        public CustomerController (ICustomerRepository customerRepository,
                                     IStoreRepository storeRepository,
                                     ICustomerOrderRepository customerOrderRepository) {
 
@@ -26,7 +26,10 @@ namespace Project1.Main.Controllers {
 
         [HttpGet]
         public IActionResult Index () {
-            return View (new CustomerViewModel ());
+
+            return View (new CustomerViewModel {
+                CustomerOptions = mCustomerRepository.FindAll
+            });
         }
 
         [HttpGet]
@@ -70,7 +73,7 @@ namespace Project1.Main.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
+        public IActionResult Login ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Validation error" });
@@ -92,7 +95,7 @@ namespace Project1.Main.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create ([Bind("Firstname", "Lastname")] CustomerViewModel customerView) {
+        public IActionResult Create ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             var firstname = customerView.Firstname;
             var lastname = customerView.Lastname;

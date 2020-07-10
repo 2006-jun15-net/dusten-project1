@@ -1,12 +1,12 @@
-﻿using DataAnnotationsExtensions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Project1.Business.Validation;
 
 namespace Project1.Business {
 
     public class OrderLineModel {
 
-        [Min(0)]
-        [Display(Name = "Quantity")]
+        [MinValue (0)]
+        [Display (Name = "Quantity")]
         public int ProductQuantity { get; set; }
         public ProductModel Product { get; set; }
 

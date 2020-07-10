@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    function alert_success (message) {
+    function alert_success(message) {
 
         $('#error-banner').css('display', 'none');
 
@@ -8,7 +8,7 @@
         $('#success-banner').css('display', 'block');
     }
 
-    function alert_error (message) {
+    function alert_error(message) {
 
         $('#success-banner').css('display', 'none');
 
@@ -26,7 +26,7 @@
 
             if (response.success) {
 
-                alert_success (response.responseText);
+                alert_success(response.responseText);
                 window.location.href = '/Customer/Home';
             }
 
@@ -65,4 +65,16 @@
         }
     });
 
+    $('#customers-menu a').click(function (event) {
+
+        event.preventDefault();
+
+        let names = $(this).attr('value').split(' ');
+
+        let firstname = names[0];
+        let lastname = names[1];
+
+        $('#login-form #firstname input[type=text]').val(firstname);
+        $('#login-form #lastname input[type=text]').val(lastname);
+    });
 });

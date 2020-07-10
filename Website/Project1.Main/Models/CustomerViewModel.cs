@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+using Project1.Business;
 
 namespace Project1.Main.Models {
 
@@ -9,5 +12,7 @@ namespace Project1.Main.Models {
 
         [RegularExpression (@"^[A-Z][a-z]+")]
         public string Lastname { get; set; }
+
+        public IEnumerable<CustomerModel> CustomerOptions { get; set; }
     }
 }

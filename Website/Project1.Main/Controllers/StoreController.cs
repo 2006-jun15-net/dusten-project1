@@ -5,6 +5,7 @@ using Project1.Main.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Project1.Main.Controllers {
 
@@ -89,8 +90,6 @@ namespace Project1.Main.Controllers {
         [ValidateAntiForgeryToken]
         public IActionResult CreateOrder (List<OrderLineModel> lines, string storeName) {
 
-            Debug.WriteLine (lines.Count);
-
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Invalid data sent" });
             }
@@ -109,7 +108,7 @@ namespace Project1.Main.Controllers {
 
             bool orderSuccess = mOrderRepository.Add (new CustomerOrderModel {
 
-                OrderLine = lines,
+                OrderLine = lines.Where (l => l.ProductQuantity > 0),
                 Timestamp = DateTime.Now
 
             }, customer.Id, store.Id);

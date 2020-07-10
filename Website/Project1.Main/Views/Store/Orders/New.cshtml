@@ -12,6 +12,9 @@
 <h2>New Order at @Html.DisplayFor(m => Model.Name)</h2>
 
 <div style="margin-left: 25%;">
+    ]
+    @{ await Html.RenderPartialAsync ("_Banners"); }
+
     <form id="new-order-form">
 
         @Html.AntiForgeryToken()

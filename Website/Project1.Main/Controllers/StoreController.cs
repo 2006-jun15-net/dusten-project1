@@ -106,9 +106,15 @@ namespace Project1.Main.Controllers {
                 return Json (new { success = false, responseText = $"Store '{storeName}' does not exist"});
             }
 
+            var orderLines = lines.Where (l => l.ProductQuantity > 0);
+
+            if (orderLines.Count() == 0) {
+                return Json (new { success = false, responseText = "Order contains no items"});
+            }
+
             bool orderSuccess = mOrderRepository.Add (new CustomerOrderModel {
 
-                OrderLine = lines.Where (l => l.ProductQuantity > 0),
+                OrderLine = orderLines, 
                 Timestamp = DateTime.Now
 
             }, customer.Id, store.Id);

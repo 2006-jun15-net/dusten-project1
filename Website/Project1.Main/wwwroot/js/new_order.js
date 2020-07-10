@@ -20,6 +20,8 @@
 
         let formData = $(this).serializeArray();
 
+        console.log(formData);
+
         // Assume the order is correct here. Issues will be
         // caught in StoreController
         let formObj = {}
@@ -27,18 +29,20 @@
 
         let lines = []
 
-        for (let i = 1; i < formData.langth; i += 3) {
+        for (let i = 1; i < formData.length; i += 2) {
 
             lines.push({
                 'ProductQuantity': formData[i]['value'],
                 'Product': {
-                    'Name': formData[i + 1]['value'],
-                    'Price': formData[i + 1]['value']
+                    'Id': formData[i + 1]['value'],
                 }
             })
         }
 
         formObj['lines'] = lines;
+        formObj['storeName'] = $('#Name').attr('value');
+
+        console.log(formObj);
 
         $.post('/Store/CreateOrder', formObj, function (response) {
 

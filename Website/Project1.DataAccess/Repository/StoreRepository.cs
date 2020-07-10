@@ -34,7 +34,8 @@ namespace Project1.DataAccess.Repository {
                         Product = new ProductModel {
 
                             Name = st.Product.Name,
-                            Price = st.Product.Price
+                            Price = st.Product.Price,
+                            Id = st.Product.Id
                         },
                         ProductQuantity = st.ProductQuantity
                     }),

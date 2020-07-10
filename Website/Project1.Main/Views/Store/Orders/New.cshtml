@@ -8,6 +8,9 @@
 
 }
 
+@Html.HiddenFor(m => Model.Name)
+<h2>New Order at @Html.DisplayFor(m => Model.Name)</h2>
+
 <div style="margin-left: 25%;">
     <form id="new-order-form">
 
@@ -33,9 +36,7 @@
                             <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
                             <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
                             <td><input class="form-control" type="number" max="@stock.ProductQuantity" min="0" name="ProductQuantity" value="0" /></td>
-
-                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Name)</td>
-                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Price)</td>
+                            <td style="display: none;">@Html.HiddenFor(m => stock.Product.Id)</td>
                         </tr>
                     }
                 </tbody>

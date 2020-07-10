@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Project1.Business;
 using Project1.Main.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -86,9 +87,36 @@ namespace Project1.Main.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateOrder (List<OrderLineModel> lines) {
+        public IActionResult CreateOrder (List<OrderLineModel> lines, string storeName) {
 
             Debug.WriteLine (lines.Count);
+
+            if (!ModelState.IsValid) {
+                return Json (new { success = false, responseText = "Invalid data sent" });
+            }
+
+            var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
+
+            if (customer == default) {
+                return Json (new { success = false, responseText = "Access denied, not logged in"});
+            }
+
+            var store = mStoreRepository.FindByName (storeName);
+
+            if (store == default) {
+                return Json (new { success = false, responseText = $"Store '{storeName}' does not exist"});
+            }
+
+            bool orderSuccess = mOrderRepository.Add (new CustomerOrderModel {
+
+                OrderLine = lines,
+                Timestamp = DateTime.Now
+
+            }, customer.Id, store.Id);
+
+            if (!orderSuccess) {
+                return Json (new { success = false, responseText = "Failed to place order (invalid data)"});
+            }
 
             return Json (new { success = true, responseText = "Success" });
         }

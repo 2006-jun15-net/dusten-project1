@@ -6,5 +6,6 @@ namespace Project1.Business {
 
         IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId);
         IEnumerable<CustomerOrderModel> FindOrdersByCustomerAndStore (int? customerId, int storeId);
+        bool Add (CustomerOrderModel order, int? customerId, int storeId);   
     }
 }

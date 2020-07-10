@@ -1,9 +1,3 @@
-# the "trigger" and "pr" settings define when
-# the pipeline will run automatically
-
-# simple trigger: list of branches
-# trigger:
-# - master
 trigger:
   branches:
     include:
@@ -12,9 +6,6 @@ trigger:
     exclude:
     - README.md
 
-# pr trigger: automatic builds on pull requests
-# targetting certain branches
-# default is all pull requests
 pr:
 - master
 
@@ -126,3 +117,4 @@ jobs:
       testRunTitle: 'windows'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
+

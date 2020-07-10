@@ -3,14 +3,25 @@
     function alert_success(message) {
 
         $('#error-banner').css('display', 'none');
+        $('#warning-banner').css('display', 'none');
 
         $('#success-banner').html(message);
         $('#success-banner').css('display', 'block');
     }
 
+    function alert_warning(message) {
+
+        $('#success-banner').css('display', 'none');
+        $('#error-banner').css('display', 'none');
+
+        $('#warning-banner').html(message);
+        $('#warning-banner').css('display', 'block');
+    }
+
     function alert_error(message) {
 
         $('#success-banner').css('display', 'none');
+        $('#warning-banner').css('display', 'none');
 
         $('#error-banner').html(message);
         $('#error-banner').css('display', 'block');
@@ -20,25 +31,39 @@
 
         let formData = $(this).serializeArray();
 
-        // Assume the order is correct here. Issues will be
-        // caught in StoreController
+        console.log(formData);
+
         let formObj = {}
         formObj[formData[0]['name']] = formData[0]['value'];
 
         let lines = []
 
-        for (let i = 1; i < formData.langth; i += 3) {
+        for (let i = 1; i < formData.length; i += 2) {
+
+            var quantity = parseInt(formData[i]['value']);
+
+            if (quantity <= 0) {
+                continue;
+            }
 
             lines.push({
-                'ProductQuantity': formData[i]['value'],
+                'ProductQuantity': quantity,
                 'Product': {
-                    'Name': formData[i + 1]['value'],
-                    'Price': formData[i + 1]['value']
+                    'Id': formData[i + 1]['value'],
                 }
             })
         }
 
+        if (lines.length == 0) {
+
+            alert_error('Order contains no items');
+            return false;
+        }
+
         formObj['lines'] = lines;
+        formObj['storeName'] = $('#Name').attr('value');
+
+        console.log(formObj);
 
         $.post('/Store/CreateOrder', formObj, function (response) {
 

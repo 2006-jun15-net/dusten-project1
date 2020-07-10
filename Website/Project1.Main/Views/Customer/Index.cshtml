@@ -27,10 +27,11 @@
 <div class="h-100 row" style="margin-top: 5%; margin-left: 25% !important; width: 50% !important;">
     <div class="col" style="border: 3px solid #f6f7f8; padding-bottom: 15px; padding-top: 5px;">
 
-        <div class="text-center">
-            <div class="alert alert-danger" role="alert" id="error-banner" style="display: none;"></div>
-            <div class="alert alert-success" role="alert" id="success-banner" style="display: none;"></div>
-        </div>
+        @{ await Html.RenderPartialAsync ("_Banners"); }
+        <!--<div class="text-center">
+        <div class="alert alert-danger" role="alert" id="error-banner" style="display: none;"></div>
+        <div class="alert alert-success" role="alert" id="success-banner" style="display: none;"></div>
+    </div>-->
 
         <form id="login-form">
 

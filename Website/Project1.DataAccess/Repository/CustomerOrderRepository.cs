@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project1.Business;
 using Project1.DataAccess.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +39,8 @@ namespace Project1.DataAccess.Repository {
                     Product = new ProductModel {
 
                         Price = o.Product.Price,
-                        Name = o.Product.Name
+                        Name = o.Product.Name,
+                        Id = o.Product.Id
                     }
                 })
             });
@@ -67,10 +69,37 @@ namespace Project1.DataAccess.Repository {
                     Product = new ProductModel {
 
                         Price = o.Product.Price,
-                        Name = o.Product.Name
+                        Name = o.Product.Name,
+                        Id = o.Product.Id
                     }
                 })
             });
+        }
+
+        public virtual bool Add (CustomerOrderModel order, int? customerId, int storeId) {
+
+            if (customerId == null) {
+                return false;
+            }
+
+            mContext.CustomerOrder.Add (new CustomerOrder {
+
+                CustomerId = (int)customerId,
+                StoreId = storeId,
+
+                Timestamp = order.Timestamp,
+
+                OrderLine = order.OrderLine.Select (o => new OrderLine {
+
+                    ProductId = o.Product.Id,
+                    ProductQuantity = o.ProductQuantity
+
+                }).ToList ()
+            });
+
+            mContext.SaveChanges ();
+
+            return true;
         }
     }
 }

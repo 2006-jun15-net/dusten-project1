@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
+
 using Project1.Business;
 using Project1.Main.Models;
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Project1.Main.Controllers {
 
-    public class StoreController : Controller {
+    public class StoreController : LoggedController {
 
         private readonly IStoreRepository mStoreRepository;
         private readonly ICustomerOrderRepository mOrderRepository;
 
-        public StoreController (IStoreRepository storeRepository, ICustomerOrderRepository customerOrderRepository) {
+        public StoreController (ILogger logger,
+                                IStoreRepository storeRepository, 
+                                ICustomerOrderRepository customerOrderRepository) : base (logger) {
 
             mStoreRepository = storeRepository;
             mOrderRepository = customerOrderRepository;
@@ -23,7 +26,7 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public IActionResult Index (string name) {
 
-            var store = mStoreRepository.FindByName (name);
+            var store = mStoreRepository.FindByName (name).Result;
 
             if (store == default) {
                 return NotFound ();
@@ -48,7 +51,7 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var store = mStoreRepository.FindByName (name);
+            var store = mStoreRepository.FindByName (name).Result;
 
             if (store == default) {
                 return NotFound ();
@@ -73,7 +76,7 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var store = mStoreRepository.FindByName (name);
+            var store = mStoreRepository.FindByName (name).Result;
 
             if (store == default) {
                 return NotFound ();

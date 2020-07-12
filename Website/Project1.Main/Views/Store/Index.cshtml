@@ -6,6 +6,11 @@
 
 @section navbar_items {
 
+    @if (Model.HasCustomer) {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="/Customer/Home">Customer Home</a>
+        </li>
+    }
 }
 
 <h1>@Model.Name</h1>
@@ -37,8 +42,8 @@
 @if (Model.HasCustomer) {
 
     <span>
-        <a href="/Store/Orders/List?name=@Model.Name">List Orders</a>
-        <a href="/Store/Orders/New?name=@Model.Name">New Order</a>
+        <a class="btn btn-primary" href="/Store/Orders/List?name=@Model.Name">List Orders</a>
+        <a class="btn btn-primary" href="/Store/Orders/New?name=@Model.Name">New Order</a>
     </span>
 }
 

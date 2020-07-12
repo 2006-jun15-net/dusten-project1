@@ -1,31 +1,50 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 using Microsoft.EntityFrameworkCore;
 
 using Project1.DataAccess.Model;
 using Project1.Business;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Project1.DataAccess.Repository {
 
+    /// <summary>
+    /// Repository for 'Store' table
+    /// </summary>
     public class StoreRepository : Repository, IStoreRepository {
 
+        /// <summary>
+        /// Find all Store entities and map to models
+        /// </summary>
         public IEnumerable<StoreModel> FindAll {
-            get => mContext.Store.Select (s => new StoreModel { Name = s.Name });
+
+            get {
+                
+                IQueryable<StoreModel> selection = mContext.Store.Select (s => new StoreModel { Name = s.Name });
+                mLogger.LogInformation (selection.ToString ());
+
+                return selection;
+            }
         }
 
-        public StoreRepository (Project0Context context)
-            : base (context) { }
+        public StoreRepository (ILogger logger, Project0Context context)
+            : base (logger, context) { }
 
         /// <summary>
         /// FOR UNIT TESTS ONLY!!!!
         /// </summary>
         public StoreRepository () { }
 
-        public virtual StoreModel FindByName (string name) {
+        /// <summary>
+        /// Find Store entity with given name and map to model
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public virtual Task<StoreModel> FindByName (string name) {
 
-            return mContext.Store.Where (s => s.Name == name)
+            IQueryable<StoreModel> selection = mContext.Store.Where (s => s.Name == name)
                 .Include (s => s.StoreStock).ThenInclude (st => st.Product)
                 .Select (s => new StoreModel {
 
@@ -42,7 +61,11 @@ namespace Project1.DataAccess.Repository {
                     Name = s.Name,
                     Id = s.Id
 
-                }).FirstOrDefault ();
+                });
+
+            mLogger.LogInformation (selection.ToString ());
+
+            return selection.FirstOrDefaultAsync ();
         }
     }
 }

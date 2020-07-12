@@ -6,6 +6,7 @@ using Moq;
 
 using Project1.DataAccess.Repository;
 using Project1.Business;
+using System.Threading.Tasks;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -31,7 +32,8 @@ namespace Project1.Test.DataAccess.Repository {
             mockCustomerRepo.Setup (
                 repo => repo.FindByName (It.IsAny<string> (), It.IsAny<string> ())  
             ).Returns (
-                (string firstname, string lastname) => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ()
+                (string firstname, string lastname) => 
+                    new Task<CustomerModel> (() => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ())
             );
 
             mCustomerRepository = mockCustomerRepo.Object;
@@ -40,7 +42,7 @@ namespace Project1.Test.DataAccess.Repository {
         [Fact]
         public void TestFindByNameSuccess () {
 
-            var customerByName = mCustomerRepository.FindByName ("Test", "One");
+            var customerByName = mCustomerRepository.FindByName ("Test", "One").Result;
 
             Assert.NotSame (default(CustomerModel), customerByName);
             Assert.Equal ("Test One", customerByName.Name);

@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging; 
 
 using Project1.DataAccess.Model;
 using Project1.Business;
 using Project1.DataAccess.Repository;
 using System;
+using System.IO;
 
 namespace Project1.Main {
 
@@ -43,9 +45,14 @@ namespace Project1.Main {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure (IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger) {
 
             // Middleware happens here
+
+            var path = Directory.GetCurrentDirectory();
+            var date = DateTime.Now;
+
+            logger.AddFile($"{path}/logs/{date}.log");
 
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();

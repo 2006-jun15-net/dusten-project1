@@ -6,6 +6,7 @@ using Moq;
 
 using Project1.DataAccess.Repository;
 using Project1.Business;
+using System.Threading.Tasks;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -28,7 +29,8 @@ namespace Project1.Test.DataAccess.Repository {
             mockStoreRepo.Setup (
                 repo => repo.FindByName (It.IsAny<string> ())
             ).Returns (
-                (string name) => stores.SingleOrDefault (s => s.Name == name)
+                (string name) => 
+                    new Task<StoreModel> (() => stores.SingleOrDefault (s => s.Name == name))
             );
 
             mockStoreRepo.SetupAllProperties ();

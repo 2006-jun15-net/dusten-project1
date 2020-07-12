@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Project1.Business {
 
     public interface ICustomerRepository {
 
         IEnumerable<CustomerModel> FindAll { get; }
-        CustomerModel FindByName (string firstname, string lastname);
-        CustomerModel Add (string firstname, string lastname);
+        Task<CustomerModel> FindByName (string firstname, string lastname);
+        bool Add (CustomerModel customerModel);
     }
 }

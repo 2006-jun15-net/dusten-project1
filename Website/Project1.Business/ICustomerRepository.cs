@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Project1.Business {
 
+    /// <summary>
+    /// Customer repository interface
+    /// </summary>
     public interface ICustomerRepository {
 
         IEnumerable<CustomerModel> FindAll { get; }

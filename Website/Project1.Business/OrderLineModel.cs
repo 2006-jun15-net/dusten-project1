@@ -3,6 +3,9 @@ using Project1.Business.Validation;
 
 namespace Project1.Business {
 
+    /// <summary>
+    /// Business model for OrderLine entity
+    /// </summary>
     public class OrderLineModel {
 
         [MinValue (0)]
@@ -10,6 +13,10 @@ namespace Project1.Business {
         public int ProductQuantity { get; set; }
         public ProductModel Product { get; set; }
 
+        /// <summary>
+        /// Show details for the corresponding order
+        /// </summary>
+        /// <returns></returns>
         public override string ToString () {
 
             double totalPrice = Product.Price * ProductQuantity;

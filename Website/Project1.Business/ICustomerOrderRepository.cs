@@ -2,6 +2,9 @@
 
 namespace Project1.Business {
 
+    /// <summary>
+    /// Customer order repository interface
+    /// </summary>
     public interface ICustomerOrderRepository {
 
         IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId);

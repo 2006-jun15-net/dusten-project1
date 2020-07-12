@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Project1.Business {
 
+    /// <summary>
+    /// Business model for Store entity
+    /// </summary>
     public class StoreModel {
 
         public int Id { get; set; }

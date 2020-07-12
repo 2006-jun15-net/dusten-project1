@@ -115,12 +115,17 @@ namespace Project1.Main.Controllers {
                 return Json (new { success = false, responseText = "Order contains no items"});
             }
 
-            bool orderSuccess = mOrderRepository.Add (new CustomerOrderModel {
+            var orderModel = new CustomerOrderModel {
 
                 OrderLine = orderLines, 
                 Timestamp = DateTime.Now
+            };
 
-            }, customer.Id, store.Id);
+            if (orderModel.ProductCount > CustomerOrderModel.MAX_PRODUCTS) {
+                return Json (new { success = false, responseText = "Order exceeds maximum quantity"});
+            }
+
+            bool orderSuccess = mOrderRepository.Add (orderModel, customer.Id, store.Id);
 
             if (!orderSuccess) {
                 return Json (new { success = false, responseText = "Failed to place order (invalid data)"});

@@ -33,10 +33,11 @@
 
         console.log(formData);
 
-        let formObj = {}
+        let formObj = {};
         formObj[formData[0]['name']] = formData[0]['value'];
 
-        let lines = []
+        let lines = [];
+        let totalItems = 0;
 
         for (let i = 1; i < formData.length; i += 2) {
 
@@ -45,6 +46,8 @@
             if (quantity <= 0) {
                 continue;
             }
+
+            totalItems += quantity;
 
             lines.push({
                 'ProductQuantity': quantity,
@@ -56,7 +59,13 @@
 
         if (lines.length == 0) {
 
-            alert_error('Order contains no items');
+            alert_warning('Order contains no items');
+            return false;
+        }
+
+        if (totalItems > 20) {
+
+            alert_warning('Order contains too many items');
             return false;
         }
 

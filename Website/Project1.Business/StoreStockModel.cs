@@ -2,10 +2,14 @@
 
 namespace Project1.Business {
 
+    /// <summary>
+    /// Business model for StoreStock entity
+    /// </summary>
     public class StoreStockModel {
 
-        [MinValue (0)]
         public ProductModel Product { get; set; }
+
+        [MinValue (0)]
         public int ProductQuantity { get; set; }
     }
 }

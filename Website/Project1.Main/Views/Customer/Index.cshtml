@@ -9,6 +9,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/login.js" asp-append-version="true"></script>
+    <script src="~/js/search.js" asp-append-version="true"></script>
 }
 
 @section navbar_items {
@@ -16,7 +17,10 @@
         <a class="nav-link dropdown-toggle text-dark" href="#" id="customers-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Customers
         </a>
-        <div id="customers-menu" class="dropdown-menu" aria-labelledby="customers-dropdown">
+        <div id="search-menu" class="dropdown-menu" aria-labelledby="customers-dropdown">
+
+            <input id="search" type="text" class="form-control" placeholder="Search" />
+
             @foreach (var option in Model.CustomerOptions) {
                 <a class="dropdown-item" href="#" value="@option.Name">@Html.DisplayFor(m => option.Name)</a>
             }

@@ -4,14 +4,21 @@
     ViewData["Title"] = Html.DisplayFor (m => m.CustomerName);
 }
 
+@section scripts {
+    <script src="~/js/search.js" asp-append-version="true"></script>
+}
+
 @section navbar_items {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-dark" href="#" id="stores-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Stores
         </a>
-        <div id="stores-menu" class="dropdown-menu" aria-labelledby="stores-dropdown">
+        <div id="search-menu" class="dropdown-menu" aria-labelledby="stores-dropdown">
+
+            <input id="search" type="text" class="form-control" placeholder="Search" />
+
             @foreach (var option in Model.StoreOptions) {
-                <a class="dropdown-item" href="/Store?name=@option">@Html.DisplayFor(m => option)</a>
+                <a class="dropdown-item" href="/Store?name=@option" value="@option">@Html.DisplayFor(m => option)</a>
             }
         </div>
     </li>

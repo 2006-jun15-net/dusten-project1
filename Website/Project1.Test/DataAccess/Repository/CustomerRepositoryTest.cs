@@ -28,30 +28,47 @@ namespace Project1.Test.DataAccess.Repository {
                     Name = "Test Two"
                 }
             };
-            
+
+            // Find all
             mockCustomerRepo.Setup (
-                repo => repo.FindByName (It.IsAny<string> (), It.IsAny<string> ())  
+                repo => repo.FindAllAsync ()   
             ).Returns (
-                (string firstname, string lastname) => 
-                    new Task<CustomerModel> (() => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ())
+                async () => await Task.Run (() => customers)  
+            );
+            
+            // Find by name
+            mockCustomerRepo.Setup (
+                repo => repo.FindByNameAsync (It.IsAny<string> (), It.IsAny<string> ())  
+            ).Returns (
+                async (string firstname, string lastname) => 
+                await Task.Run (() => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ())
             );
 
             mCustomerRepository = mockCustomerRepo.Object;
         }
 
         [Fact]
-        public void TestFindByNameSuccess () {
+        public async void TestFindAll () {
 
-            var customerByName = mCustomerRepository.FindByName ("Test", "One").Result;
+            var allCustomers = await mCustomerRepository.FindAllAsync ();
+
+            Assert.Equal (2, allCustomers.Count ());
+        }
+
+        [Fact]
+        public async void TestFindByNameSuccess () {
+
+            var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "One");
 
             Assert.NotSame (default(CustomerModel), customerByName);
             Assert.Equal ("Test One", customerByName.Name);
         }
 
         [Fact]
-        public void TestFindByNameFail () {
+        public async void TestFindByNameFail () {
 
-            var customerByName = mCustomerRepository.FindByName ("Test", "Three");
+            var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "Three");
+
             Assert.Same (default(CustomerModel), customerByName);
         }
     }

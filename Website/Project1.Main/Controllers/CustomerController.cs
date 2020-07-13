@@ -1,8 +1,9 @@
 ﻿using System.Linq;
-
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project1.Business;
+using Project1.DataAccess.Model;
 using Project1.Main.Models;
 
 namespace Project1.Main.Controllers {
@@ -39,12 +40,14 @@ namespace Project1.Main.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Index () {
+        public async Task<IActionResult> Index () {
 
             mLogger.LogDebug ("Customer/Index request");
 
+            var customers = await mCustomerRepository.FindAllAsync ();
+
             return View (new CustomerViewModel {
-                CustomerOptions = mCustomerRepository.FindAll
+                CustomerOptions = customers
             });
         }
 
@@ -53,7 +56,7 @@ namespace Project1.Main.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Home () {
+        public async Task<IActionResult> Home () {
 
             mLogger.LogDebug ("Customer/Home request");
 
@@ -63,7 +66,7 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var stores = mStoreRepository.FindAll;
+            var stores = await mStoreRepository.FindAllAsync ();
 
             var storesModel = new LandingPageViewModel {
 
@@ -80,7 +83,7 @@ namespace Project1.Main.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Orders () {
+        public async Task<IActionResult> Orders () {
 
             mLogger.LogDebug ("Customer/Orders request");
 
@@ -90,7 +93,7 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var orders = mCustomerOrderRepository.FindOrdersByCustomer (customer.Id);
+            var orders = await mCustomerOrderRepository.FindOrdersByCustomerAsync (customer.Id);
 
             return View (new OrdersViewModel {
 
@@ -109,7 +112,7 @@ namespace Project1.Main.Controllers {
         /// <returns>JSON object with success flag and response text</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
+        public async Task<IActionResult> Login ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             mLogger.LogDebug ("Customer/Login request");
 
@@ -120,7 +123,7 @@ namespace Project1.Main.Controllers {
             var firstname = customerView.Firstname;
             var lastname = customerView.Lastname;
 
-            var customer = mCustomerRepository.FindByName (firstname, lastname).Result;
+            var customer = await mCustomerRepository.FindByNameAsync (firstname, lastname);
 
             if (customer == default) {
                 return Json (new { success = false, responseText = $"Customer '{firstname} {lastname}' does not exists!" });
@@ -139,7 +142,7 @@ namespace Project1.Main.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
+        public async Task<IActionResult> Create ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
             mLogger.LogDebug ("Customer/Create request");
 
@@ -150,11 +153,11 @@ namespace Project1.Main.Controllers {
                 return Json (new { success = false, responseText = "Validation error" });
             }
 
-            var newCustomer = mCustomerRepository.Add (new CustomerModel {
+            var newCustomer = await mCustomerRepository.AddAsync (new CustomerModel {
                 Name = firstname + " " + lastname    
             });
 
-            if (newCustomer == default) {
+            if (newCustomer == false) {
                 return Json (new { success = false, responseText = $"Customer {firstname} {lastname} already exists!" });
             }
 

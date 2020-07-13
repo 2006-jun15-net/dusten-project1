@@ -10,8 +10,8 @@ namespace Project1.Business {
     /// </summary>
     public interface IStoreRepository {
 
-        public IEnumerable<StoreModel> FindAll { get; }
+        Task<IEnumerable<StoreModel>> FindAllAsync ();
 
-        Task<StoreModel> FindByName (string name);
+        Task<StoreModel> FindByNameAsync (string name);
     }
 }

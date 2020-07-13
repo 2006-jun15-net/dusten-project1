@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Project1.Business {
 
@@ -7,8 +8,8 @@ namespace Project1.Business {
     /// </summary>
     public interface ICustomerOrderRepository {
 
-        IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId);
-        IEnumerable<CustomerOrderModel> FindOrdersByCustomerAndStore (int? customerId, int storeId);
-        bool Add (CustomerOrderModel order, int? customerId, int storeId);   
+        Task<bool> AddAsync (CustomerOrderModel order, int? customerId, int storeId);   
+        Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAsync (int? customerId);
+        Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAndStoreAsync (int? customerId, int storeId);
     }
 }

@@ -25,12 +25,19 @@ namespace Project1.Test.DataAccess.Repository {
                 }
             };
 
+            // Find all
+            mockStoreRepo.Setup (
+                repo => repo.FindAllAsync ()
+            ).Returns (
+                async () => await Task.Run (() => stores)
+            );
+
             // Find by name
             mockStoreRepo.Setup (
-                repo => repo.FindByName (It.IsAny<string> ())
+                repo => repo.FindByNameAsync (It.IsAny<string> ())
             ).Returns (
-                (string name) => 
-                    new Task<StoreModel> (() => stores.SingleOrDefault (s => s.Name == name))
+                async (string name) => 
+                await Task.Run (() => stores.Where (s => s.Name == name).FirstOrDefault ())
             );
 
             mockStoreRepo.SetupAllProperties ();
@@ -39,16 +46,27 @@ namespace Project1.Test.DataAccess.Repository {
         }
 
         [Fact]
-        public void TestFindByNameSuccess () {
+        public async void TestFindAll () {
 
-            var storeByName = mStoreRepository.FindByName ("Test");
-            Assert.NotSame (default(StoreModel), storeByName);
+            var allStores = await mStoreRepository.FindAllAsync ();
+
+            Assert.Single (allStores);
         }
 
         [Fact]
-        public void TestFindByNameFail () {
+        public async void TestFindByNameSuccess () {
 
-            var storeByName = mStoreRepository.FindByName ("Not a store");
+            var storeByName = await mStoreRepository.FindByNameAsync ("Test");
+
+            Assert.NotSame (default(StoreModel), storeByName);
+            Assert.Equal ("Test", storeByName.Name);
+        }
+
+        [Fact]
+        public async void TestFindByNameFail () {
+
+            var storeByName = await mStoreRepository.FindByNameAsync ("Not a store");
+
             Assert.Same (default(StoreModel), storeByName);
         }
     }

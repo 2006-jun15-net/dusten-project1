@@ -10,8 +10,8 @@ namespace Project1.Business {
     /// </summary>
     public interface ICustomerRepository {
 
-        IEnumerable<CustomerModel> FindAll { get; }
-        Task<CustomerModel> FindByName (string firstname, string lastname);
-        bool Add (CustomerModel customerModel);
+        Task<bool> AddAsync (CustomerModel customerModel);
+        Task<IEnumerable<CustomerModel>> FindAllAsync ();
+        Task<CustomerModel> FindByNameAsync (string firstname, string lastname);
     }
 }

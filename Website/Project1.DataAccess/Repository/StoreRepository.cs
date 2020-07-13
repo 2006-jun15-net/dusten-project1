@@ -15,20 +15,6 @@ namespace Project1.DataAccess.Repository {
     /// </summary>
     public class StoreRepository : Repository, IStoreRepository {
 
-        /// <summary>
-        /// Find all Store entities and map to models
-        /// </summary>
-        public IEnumerable<StoreModel> FindAll {
-
-            get {
-                
-                IQueryable<StoreModel> selection = mContext.Store.Select (s => new StoreModel { Name = s.Name });
-                mLogger.LogInformation (selection.ToString ());
-
-                return selection;
-            }
-        }
-
         public StoreRepository (ILogger logger, Project0Context context)
             : base (logger, context) { }
 
@@ -37,12 +23,23 @@ namespace Project1.DataAccess.Repository {
         /// </summary>
         public StoreRepository () { }
 
+                /// <summary>
+        /// Find all Store entities and map to models
+        /// </summary>
+        public virtual async Task<IEnumerable<StoreModel>> FindAllAsync() {
+                
+            IQueryable<StoreModel> selection = mContext.Store.Select (s => new StoreModel { Name = s.Name });
+            mLogger.LogInformation (selection.ToString ());
+
+            return await selection.ToListAsync ();
+        }
+
         /// <summary>
         /// Find Store entity with given name and map to model
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public virtual Task<StoreModel> FindByName (string name) {
+        public virtual async Task<StoreModel> FindByNameAsync (string name) {
 
             IQueryable<StoreModel> selection = mContext.Store.Where (s => s.Name == name)
                 .Include (s => s.StoreStock).ThenInclude (st => st.Product)
@@ -65,7 +62,7 @@ namespace Project1.DataAccess.Repository {
 
             mLogger.LogInformation (selection.ToString ());
 
-            return selection.FirstOrDefaultAsync ();
+            return await selection.FirstOrDefaultAsync ();
         }
     }
 }

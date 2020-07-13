@@ -6,6 +6,7 @@ using Project1.DataAccess.Model;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project1.DataAccess.Repository {
 
@@ -22,11 +23,46 @@ namespace Project1.DataAccess.Repository {
         public CustomerOrderRepository () { }
 
         /// <summary>
+        /// Create a new order for a given customer at a given store
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="customerId"></param>
+        /// <param name="storeId"></param>
+        /// <returns></returns>
+        public virtual async Task<bool> AddAsync (CustomerOrderModel order, int? customerId, int storeId) {
+
+            if (customerId == null) {
+                return false;
+            }
+
+            var added = mContext.CustomerOrder.Add (new CustomerOrder {
+
+                CustomerId = (int)customerId,
+                StoreId = storeId,
+
+                Timestamp = order.Timestamp,
+
+                OrderLine = order.OrderLine.Select (o => new OrderLine {
+
+                    ProductId = o.Product.Id,
+                    ProductQuantity = o.ProductQuantity
+
+                }).ToList ()
+            });
+
+            mLogger.LogDebug (added.ToString ());
+
+            await mContext.SaveChangesAsync ();
+
+            return true;
+        }
+
+        /// <summary>
         /// Find all orders for a given customer
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        public virtual IEnumerable<CustomerOrderModel> FindOrdersByCustomer (int? customerId) {
+        public virtual async Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAsync (int? customerId) {
 
             if (customerId == null) {
                 return new List<CustomerOrderModel> ();
@@ -57,7 +93,7 @@ namespace Project1.DataAccess.Repository {
 
             mLogger.LogDebug (selection.ToString ());
 
-            return selection;
+            return await selection.ToListAsync ();
         }
 
         /// <summary>
@@ -66,7 +102,7 @@ namespace Project1.DataAccess.Repository {
         /// <param name="customerId"></param>
         /// <param name="storeId"></param>
         /// <returns></returns>
-        public virtual IEnumerable<CustomerOrderModel> FindOrdersByCustomerAndStore (int? customerId, int storeId) {
+        public virtual async Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAndStoreAsync (int? customerId, int storeId) {
 
             if (customerId == null) {
                 return new List<CustomerOrderModel> ();
@@ -97,42 +133,7 @@ namespace Project1.DataAccess.Repository {
 
             mLogger.LogDebug (selection.ToString ());
 
-            return selection;
-        }
-
-        /// <summary>
-        /// Create a new order for a given customer at a given store
-        /// </summary>
-        /// <param name="order"></param>
-        /// <param name="customerId"></param>
-        /// <param name="storeId"></param>
-        /// <returns></returns>
-        public virtual bool Add (CustomerOrderModel order, int? customerId, int storeId) {
-
-            if (customerId == null) {
-                return false;
-            }
-
-            var added = mContext.CustomerOrder.Add (new CustomerOrder {
-
-                CustomerId = (int)customerId,
-                StoreId = storeId,
-
-                Timestamp = order.Timestamp,
-
-                OrderLine = order.OrderLine.Select (o => new OrderLine {
-
-                    ProductId = o.Product.Id,
-                    ProductQuantity = o.ProductQuantity
-
-                }).ToList ()
-            });
-
-            mLogger.LogDebug (added.ToString ());
-
-            mContext.SaveChanges ();
-
-            return true;
+            return await selection.ToListAsync ();
         }
     }
 }

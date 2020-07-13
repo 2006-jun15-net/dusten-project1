@@ -13,20 +13,6 @@ namespace Project1.DataAccess.Repository {
 
     public class CustomerRepository : Repository, ICustomerRepository {
 
-        /// <summary>
-        /// Find all Customer entites and map to moodels
-        /// </summary>
-        public IEnumerable<CustomerModel> FindAll {
-
-            get {
-
-                IQueryable<CustomerModel> selection = mContext.Customer.Select (c => new CustomerModel { Name = c.Firstname + " " + c.Lastname });
-                mLogger.LogDebug (selection.ToString ());
-
-                return selection;
-            }
-        }
-
         public CustomerRepository (ILogger logger, Project0Context context) 
             : base (logger, context) { }
 
@@ -39,7 +25,7 @@ namespace Project1.DataAccess.Repository {
         /// Create new Customer entity in db from given model
         /// </summary>
         /// <param name="customer"></param>
-        public virtual bool Add (CustomerModel customer) {
+        public virtual async Task<bool> AddAsync (CustomerModel customer) {
 
             string[] names = customer.Name.Split (" ");
 
@@ -60,12 +46,23 @@ namespace Project1.DataAccess.Repository {
 
             mLogger.LogDebug (added.ToString ());
 
-            mContext.SaveChanges ();
+            await mContext.SaveChangesAsync ();
 
             return true;
         }
 
-        public virtual Task<CustomerModel> FindByName (string firstname, string lastname) {
+                /// <summary>
+        /// Find all Customer entites and map to moodels
+        /// </summary>
+        public virtual async Task<IEnumerable<CustomerModel>> FindAllAsync () {
+
+            IQueryable<CustomerModel> selection = mContext.Customer.Select (c => new CustomerModel { Name = c.Firstname + " " + c.Lastname });
+            mLogger.LogDebug (selection.ToString ());
+
+            return await selection.ToListAsync ();
+        }
+
+        public virtual async Task<CustomerModel> FindByNameAsync (string firstname, string lastname) {
 
             IQueryable<CustomerModel> selection = mContext.Customer.Where (c => (c.Firstname == firstname) && (c.Lastname == lastname))
                 .Include (c => c.Store).Select (c => new CustomerModel {
@@ -81,7 +78,7 @@ namespace Project1.DataAccess.Repository {
 
             mLogger.LogDebug (selection.ToString ());
 
-            return selection.FirstOrDefaultAsync ();
+            return await selection.FirstOrDefaultAsync ();
         }
     }
 }

@@ -7,6 +7,7 @@ using Project1.Main.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project1.Main.Controllers {
 
@@ -26,7 +27,7 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public IActionResult Index (string name) {
 
-            var store = mStoreRepository.FindByName (name).Result;
+            var store = mStoreRepository.FindByNameAsync (name).Result;
 
             if (store == default) {
                 return NotFound ();
@@ -43,7 +44,7 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpGet]
-        public IActionResult ListOrders (string name) {
+        public async Task<IActionResult> ListOrders (string name) {
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
@@ -51,13 +52,13 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var store = mStoreRepository.FindByName (name).Result;
+            var store = await mStoreRepository.FindByNameAsync (name);
 
             if (store == default) {
                 return NotFound ();
             }
 
-            var orders = mOrderRepository.FindOrdersByCustomerAndStore (customer.Id, store.Id);
+            var orders = await mOrderRepository.FindOrdersByCustomerAndStoreAsync (customer.Id, store.Id);
 
             return View ("~/Views/Store/Orders/List.cshtml", new OrdersViewModel {
 
@@ -68,7 +69,7 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpGet]
-        public IActionResult NewOrder (string name) {
+        public async Task<IActionResult> NewOrder (string name) {
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
@@ -76,7 +77,7 @@ namespace Project1.Main.Controllers {
                 return Forbid ();
             }
 
-            var store = mStoreRepository.FindByName (name).Result;
+            var store = await mStoreRepository.FindByNameAsync (name);
 
             if (store == default) {
                 return NotFound ();
@@ -91,7 +92,7 @@ namespace Project1.Main.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateOrder (List<OrderLineModel> lines, string storeName) {
+        public async Task<IActionResult> CreateOrder (List<OrderLineModel> lines, string storeName) {
 
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Invalid data sent" });
@@ -103,7 +104,7 @@ namespace Project1.Main.Controllers {
                 return Json (new { success = false, responseText = "Access denied, not logged in"});
             }
 
-            var store = mStoreRepository.FindByName (storeName);
+            var store = await mStoreRepository.FindByNameAsync (storeName);
 
             if (store == default) {
                 return Json (new { success = false, responseText = $"Store '{storeName}' does not exist"});
@@ -125,7 +126,7 @@ namespace Project1.Main.Controllers {
                 return Json (new { success = false, responseText = "Order exceeds maximum quantity"});
             }
 
-            bool orderSuccess = mOrderRepository.Add (orderModel, customer.Id, store.Id);
+            bool orderSuccess = await mOrderRepository.AddAsync (orderModel, customer.Id, store.Id);
 
             if (!orderSuccess) {
                 return Json (new { success = false, responseText = "Failed to place order (invalid data)"});

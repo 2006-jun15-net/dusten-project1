@@ -2,8 +2,6 @@
 
     $('#search').keyup(function (event) {
 
-        event.preventDefault();
-
         let inputStr = $(this).attr('value').toLowerCase();
 
         $('#search-menu a').each(function (index, value) {

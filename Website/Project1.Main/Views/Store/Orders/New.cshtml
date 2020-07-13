@@ -13,8 +13,10 @@
 <h4>(Max items per order: 20)</h4>
 
 <div style="margin-left: 25%;">
-    ]
+
     @{ await Html.RenderPartialAsync ("_Banners"); }
+
+    <input id="search" type="text" placeholder="Search" class="form-control" style="width: 50% !important;" />
 
     <form id="new-order-form">
 
@@ -22,7 +24,7 @@
 
         <div class="form-group">
 
-            <table class="table">
+            <table id="product-table" class="table">
 
                 <thead>
                     <tr>
@@ -36,7 +38,7 @@
                 <tbody>
                     @foreach (var stock in Model.Stock) {
                         <tr>
-                            <td>@Html.DisplayFor(m => stock.Product.Name)</td>
+                            <td id="product-name">@Html.DisplayFor(m => stock.Product.Name)</td>
                             <td>@Html.DisplayFor(m => stock.Product.DisplayPrice)</td>
                             <td>@Html.DisplayFor(m => stock.ProductQuantity)</td>
                             <td><input class="form-control" type="number" max="@stock.ProductQuantity" min="0" name="ProductQuantity" value="0" /></td>

@@ -1,12 +1,10 @@
-using System.Linq;
-using System.Collections.Generic;
-
-using Xunit;
 using Moq;
-
-using Project1.DataAccess.Repository;
 using Project1.Business;
+using Project1.DataAccess.Repository;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -31,16 +29,16 @@ namespace Project1.Test.DataAccess.Repository {
 
             // Find all
             mockCustomerRepo.Setup (
-                repo => repo.FindAllAsync ()   
+                repo => repo.FindAllAsync ()
             ).Returns (
-                async () => await Task.Run (() => customers)  
+                async () => await Task.Run (() => customers)
             );
-            
+
             // Find by name
             mockCustomerRepo.Setup (
-                repo => repo.FindByNameAsync (It.IsAny<string> (), It.IsAny<string> ())  
+                repo => repo.FindByNameAsync (It.IsAny<string> (), It.IsAny<string> ())
             ).Returns (
-                async (string firstname, string lastname) => 
+                async (string firstname, string lastname) =>
                 await Task.Run (() => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ())
             );
 
@@ -60,7 +58,7 @@ namespace Project1.Test.DataAccess.Repository {
 
             var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "One");
 
-            Assert.NotSame (default(CustomerModel), customerByName);
+            Assert.NotSame (default (CustomerModel), customerByName);
             Assert.Equal ("Test One", customerByName.Name);
         }
 
@@ -69,7 +67,7 @@ namespace Project1.Test.DataAccess.Repository {
 
             var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "Three");
 
-            Assert.Same (default(CustomerModel), customerByName);
+            Assert.Same (default (CustomerModel), customerByName);
         }
     }
 }

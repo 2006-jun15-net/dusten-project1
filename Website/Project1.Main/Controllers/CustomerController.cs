@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project1.Business;
-using Project1.DataAccess.Model;
 using Project1.Main.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project1.Main.Controllers {
 
@@ -156,7 +155,7 @@ namespace Project1.Main.Controllers {
             }
 
             var newCustomer = await mCustomerRepository.AddAsync (new CustomerModel {
-                Name = firstname + " " + lastname    
+                Name = firstname + " " + lastname
             });
 
             if (newCustomer == false) {

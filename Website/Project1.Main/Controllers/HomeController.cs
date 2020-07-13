@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Project1.Main.Models;
+using System.Diagnostics;
 
 namespace Project1.Main.Controllers {
 
@@ -15,7 +13,7 @@ namespace Project1.Main.Controllers {
         private readonly ILogger<HomeController> mLogger;
 
         public HomeController (ILogger<HomeController> logger) {
-            mLogger = logger;    
+            mLogger = logger;
         }
 
         /// <summary>

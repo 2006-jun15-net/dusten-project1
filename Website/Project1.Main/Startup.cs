@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging; 
-
-using Project1.DataAccess.Model;
+using Microsoft.Extensions.Logging;
 using Project1.Business;
+using Project1.DataAccess.Model;
 using Project1.DataAccess.Repository;
 using System;
 using System.IO;
@@ -49,10 +48,10 @@ namespace Project1.Main {
 
             // Middleware happens here
 
-            var path = Directory.GetCurrentDirectory();
+            var path = Directory.GetCurrentDirectory ();
             var date = DateTime.Now;
 
-            logger.AddFile($"{path}/logs/{date}.log");
+            logger.AddFile ($"{path}/logs/{date}.log");
 
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();

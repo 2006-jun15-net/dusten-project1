@@ -1,7 +1,5 @@
-﻿namespace Project1.DataAccess.Model
-{
-    public partial class OrderLine : IModel
-    {
+﻿namespace Project1.DataAccess.Model {
+    public partial class OrderLine : IModel {
         public int Id { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }

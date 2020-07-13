@@ -27,7 +27,7 @@
 
                 return mLastVisited;
             }
-            set => mLastVisited = value; 
+            set => mLastVisited = value;
         }
     }
 }

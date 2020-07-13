@@ -1,9 +1,6 @@
-﻿using Xunit;
-
-using Project1.Business;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using Project1.Main.Controllers;
-using Microsoft.AspNetCore.Mvc;
+using Xunit;
 
 namespace Project1.Test.Main.Controllers {
 
@@ -19,17 +16,7 @@ namespace Project1.Test.Main.Controllers {
         public void KeepSessionAlive () {
 
             JsonResult request = mHomeController.KeepSessionAlive () as JsonResult;
-
-            // JSON is created with generic objects, we need
-            // to make it more concrete to test properly
-            var requestObject = (Result)request.Value;
-
             Assert.NotNull (request);
-            Assert.True(requestObject.success);
-        }
-
-        private struct Result {
-            public bool success;
         }
     }
 }

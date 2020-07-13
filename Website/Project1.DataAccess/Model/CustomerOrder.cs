@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Project1.DataAccess.Model
-{
-    public partial class CustomerOrder : IModel
-    {
-        public CustomerOrder()
-        {
-            OrderLine = new HashSet<OrderLine>();
+namespace Project1.DataAccess.Model {
+    public partial class CustomerOrder : IModel {
+        public CustomerOrder () {
+            OrderLine = new HashSet<OrderLine> ();
         }
 
         public int Id { get; set; }

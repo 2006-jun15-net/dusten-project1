@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Project1.Business.Validation;
+﻿using Project1.Business.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project1.Business {
 

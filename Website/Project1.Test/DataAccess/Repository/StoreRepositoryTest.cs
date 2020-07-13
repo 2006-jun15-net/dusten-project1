@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Xunit;
-using Moq;
-
-using Project1.DataAccess.Repository;
+﻿using Moq;
 using Project1.Business;
+using Project1.DataAccess.Repository;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Project1.Test.DataAccess.Repository {
 
@@ -36,7 +34,7 @@ namespace Project1.Test.DataAccess.Repository {
             mockStoreRepo.Setup (
                 repo => repo.FindByNameAsync (It.IsAny<string> ())
             ).Returns (
-                async (string name) => 
+                async (string name) =>
                 await Task.Run (() => stores.Where (s => s.Name == name).FirstOrDefault ())
             );
 
@@ -58,7 +56,7 @@ namespace Project1.Test.DataAccess.Repository {
 
             var storeByName = await mStoreRepository.FindByNameAsync ("Test");
 
-            Assert.NotSame (default(StoreModel), storeByName);
+            Assert.NotSame (default (StoreModel), storeByName);
             Assert.Equal ("Test", storeByName.Name);
         }
 
@@ -67,7 +65,7 @@ namespace Project1.Test.DataAccess.Repository {
 
             var storeByName = await mStoreRepository.FindByNameAsync ("Not a store");
 
-            Assert.Same (default(StoreModel), storeByName);
+            Assert.Same (default (StoreModel), storeByName);
         }
     }
 }

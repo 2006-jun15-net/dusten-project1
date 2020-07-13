@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Project1.Business;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-using Project1.Business;
 
 namespace Project1.Main.Models {
 

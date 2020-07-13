@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Microsoft.EntityFrameworkCore;
-
-using Project1.DataAccess.Model;
-using Project1.Business;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Project1.Business;
+using Project1.DataAccess.Model;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project1.DataAccess.Repository {
@@ -17,8 +15,8 @@ namespace Project1.DataAccess.Repository {
 
         private readonly ILogger<StoreRepository> mLogger;
 
-        public StoreRepository (ILogger<StoreRepository> logger, 
-                                Project0Context context) : base (context) { 
+        public StoreRepository (ILogger<StoreRepository> logger,
+                                Project0Context context) : base (context) {
             mLogger = logger;
         }
 
@@ -27,11 +25,11 @@ namespace Project1.DataAccess.Repository {
         /// </summary>
         public StoreRepository () { }
 
-                /// <summary>
+        /// <summary>
         /// Find all Store entities and map to models
         /// </summary>
-        public virtual async Task<IEnumerable<StoreModel>> FindAllAsync() {
-                
+        public virtual async Task<IEnumerable<StoreModel>> FindAllAsync () {
+
             IQueryable<StoreModel> selection = mContext.Store.Select (s => new StoreModel { Name = s.Name });
             mLogger.LogInformation (selection.ToString ());
 

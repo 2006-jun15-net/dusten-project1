@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 
 using Project1.Business;
-using Project1.DataAccess.Model;
 using Project1.Main.Models;
 
 using System;
@@ -18,7 +17,7 @@ namespace Project1.Main.Controllers {
         private readonly ICustomerOrderRepository mOrderRepository;
         private readonly ILogger<StoreController> mLogger;
 
-        public StoreController (IStoreRepository storeRepository, 
+        public StoreController (IStoreRepository storeRepository,
                                 ICustomerOrderRepository customerOrderRepository,
                                 ILogger<StoreController> logger) {
 
@@ -112,35 +111,35 @@ namespace Project1.Main.Controllers {
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
             if (customer == default) {
-                return Json (new { success = false, responseText = "Access denied, not logged in"});
+                return Json (new { success = false, responseText = "Access denied, not logged in" });
             }
 
             var store = await mStoreRepository.FindByNameAsync (storeName);
 
             if (store == default) {
-                return Json (new { success = false, responseText = $"Store '{storeName}' does not exist"});
+                return Json (new { success = false, responseText = $"Store '{storeName}' does not exist" });
             }
 
             var orderLines = lines.Where (l => l.ProductQuantity > 0);
 
-            if (orderLines.Count() == 0) {
-                return Json (new { success = false, responseText = "Order contains no items"});
+            if (orderLines.Count () == 0) {
+                return Json (new { success = false, responseText = "Order contains no items" });
             }
 
             var orderModel = new CustomerOrderModel {
 
-                OrderLine = orderLines, 
+                OrderLine = orderLines,
                 Timestamp = DateTime.Now
             };
 
             if (orderModel.ProductCount > CustomerOrderModel.MAX_PRODUCTS) {
-                return Json (new { success = false, responseText = "Order exceeds maximum quantity"});
+                return Json (new { success = false, responseText = "Order exceeds maximum quantity" });
             }
 
             bool orderSuccess = await mOrderRepository.AddAsync (orderModel, customer.Id, store.Id);
 
             if (!orderSuccess) {
-                return Json (new { success = false, responseText = "Failed to place order (invalid data)"});
+                return Json (new { success = false, responseText = "Failed to place order (invalid data)" });
             }
 
             return Json (new { success = true, responseText = "Success" });

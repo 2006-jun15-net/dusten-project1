@@ -1,12 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Xunit;
-using Moq;
-
-using Project1.DataAccess.Repository;
+﻿using Moq;
 using Project1.Business;
-using System.Threading.Tasks;
+using Project1.DataAccess.Repository;
+using System.Collections.Generic;
 
 namespace Project1.Test.DataAccess.Repository {
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace Project1.Main.Models {
     public class ErrorViewModel {
         public string RequestId { get; set; }

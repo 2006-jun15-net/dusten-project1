@@ -17,8 +17,8 @@ namespace Project1.DataAccess.Repository {
 
         private readonly ILogger<CustomerOrderRepository> mLogger;
 
-        public CustomerOrderRepository (ILogger<CustomerOrderRepository> logger, 
-                                        Project0Context context) : base (context) { 
+        public CustomerOrderRepository (ILogger<CustomerOrderRepository> logger,
+                                        Project0Context context) : base (context) {
             mLogger = logger;
         }
 

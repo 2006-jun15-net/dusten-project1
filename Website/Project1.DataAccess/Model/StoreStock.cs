@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Project1.DataAccess.Model
-{
-    public partial class StoreStock : IModel
-    {
+﻿namespace Project1.DataAccess.Model {
+    public partial class StoreStock : IModel {
         public int Id { get; set; }
         public int StoreId { get; set; }
         public int ProductId { get; set; }

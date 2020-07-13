@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Microsoft.EntityFrameworkCore;
-
-using Project1.DataAccess.Model;
-
-using Project1.Business;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Project1.Business;
+using Project1.DataAccess.Model;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project1.DataAccess.Repository {
@@ -15,8 +12,8 @@ namespace Project1.DataAccess.Repository {
 
         private readonly ILogger<CustomerRepository> mLogger;
 
-        public CustomerRepository (ILogger<CustomerRepository> logger, 
-                                    Project0Context context) : base (context) { 
+        public CustomerRepository (ILogger<CustomerRepository> logger,
+                                    Project0Context context) : base (context) {
             mLogger = logger;
         }
 
@@ -55,7 +52,7 @@ namespace Project1.DataAccess.Repository {
             return true;
         }
 
-                /// <summary>
+        /// <summary>
         /// Find all Customer entites and map to moodels
         /// </summary>
         public virtual async Task<IEnumerable<CustomerModel>> FindAllAsync () {

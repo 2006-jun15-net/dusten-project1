@@ -9,10 +9,10 @@ namespace Project1.Business {
 
         public int Id { get; set; }
 
-        [Display(Name = "Product Name")]
+        [Display (Name = "Product Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Product Price")]
+        [Display (Name = "Product Price")]
         public double Price { get; set; }
 
         /// <summary>

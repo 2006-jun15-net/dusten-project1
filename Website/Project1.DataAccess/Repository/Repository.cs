@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Project1.DataAccess.Model;
+﻿using Project1.DataAccess.Model;
 
 namespace Project1.DataAccess.Repository {
 

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Project1.DataAccess.Model
-{
-    public partial class Store : IModel
-    {
-        public Store()
-        {
-            Customer = new HashSet<Customer>();
-            CustomerOrder = new HashSet<CustomerOrder>();
-            StoreStock = new HashSet<StoreStock>();
+namespace Project1.DataAccess.Model {
+    public partial class Store : IModel {
+        public Store () {
+            Customer = new HashSet<Customer> ();
+            CustomerOrder = new HashSet<CustomerOrder> ();
+            StoreStock = new HashSet<StoreStock> ();
         }
 
         public int Id { get; set; }

@@ -33,7 +33,7 @@
                     }
 
                     else {
-                        <table class="table">
+                        <table class="table" aria-describedby="order-products">
 
                             <thead>
                                 <tr>
@@ -54,6 +54,8 @@
                             </tbody>
 
                         </table>
+
+                        <div id="order-products">Products from order at @order.StoreName placed by @order.CustomerName</div>
                     }
                 </div>
 

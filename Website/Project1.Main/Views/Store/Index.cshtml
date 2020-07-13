@@ -16,7 +16,7 @@
 <h1>@Model.Name</h1>
 
 <h3>Products:</h3>
-<table class="table">
+<table class="table" aria-describedby="available-products">
 
     <thead>
         <tr>
@@ -38,6 +38,8 @@
     </tbody>
 
 </table>
+
+<div id="available-products">Products available at @Model.Name</div>
 
 @if (Model.HasCustomer) {
 

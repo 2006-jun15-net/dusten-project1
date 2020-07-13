@@ -24,14 +24,14 @@
 
         <div class="form-group">
 
-            <table id="product-table" class="table">
+            <table aria-describedby="available-products" id="product-table" class="table">
 
                 <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th>Unit Price</th>
-                        <th>Available Stock</th>
-                        <th>Quantity</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Available Stock</th>
+                        <th scope="col">Quantity</th>
                     </tr>
                 </thead>
 
@@ -48,6 +48,8 @@
                 </tbody>
 
             </table>
+
+            <div id="available-products">Products available at @Model.Name</div>
 
         </div>
 

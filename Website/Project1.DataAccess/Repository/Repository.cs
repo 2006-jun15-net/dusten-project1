@@ -9,11 +9,8 @@ namespace Project1.DataAccess.Repository {
     public class Repository {
 
         protected readonly Project0Context mContext;
-        protected readonly ILogger mLogger;
 
-        protected Repository (ILogger logger, Project0Context context) {
-
-            mLogger  = logger;
+        protected Repository (Project0Context context) {
             mContext = context;
         }
 

@@ -15,8 +15,12 @@ namespace Project1.DataAccess.Repository {
     /// </summary>
     public class StoreRepository : Repository, IStoreRepository {
 
-        public StoreRepository (ILogger logger, Project0Context context)
-            : base (logger, context) { }
+        private readonly ILogger<StoreRepository> mLogger;
+
+        public StoreRepository (ILogger<StoreRepository> logger, 
+                                Project0Context context) : base (context) { 
+            mLogger = logger;
+        }
 
         /// <summary>
         /// FOR UNIT TESTS ONLY!!!!

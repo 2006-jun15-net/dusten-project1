@@ -10,9 +10,13 @@ namespace Project1.Main.Controllers {
     /// <summary>
     /// Provides error and session timer requests
     /// </summary>
-    public class HomeController : LoggedController {
+    public class HomeController : Controller {
 
-        public HomeController (ILogger logger) : base (logger) {}
+        private readonly ILogger<HomeController> mLogger;
+
+        public HomeController (ILogger<HomeController> logger) {
+            mLogger = logger;    
+        }
 
         /// <summary>
         /// Timed request that keeps session values alive by 
@@ -23,7 +27,10 @@ namespace Project1.Main.Controllers {
         [HttpPost]
         public IActionResult KeepSessionAlive () {
 
-            mLogger.LogDebug ("HomeController instance created");
+            if (mLogger != null) {
+                mLogger.LogInformation ("HomeController instance created");
+            }
+
             return Json (new { success = true });
         }
 
@@ -34,7 +41,10 @@ namespace Project1.Main.Controllers {
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error () {
 
-            mLogger.LogDebug ("Home/Error request");
+            if (mLogger != null) {
+                mLogger.LogError ("Home/Error request");
+            }
+
             return View (new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

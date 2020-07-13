@@ -2,7 +2,9 @@
 
     $('#search').keyup(function (event) {
 
-        let inputStr = $(this).attr('value').toLowerCase();
+        console.log('search');
+
+        let inputStr = $(this).val().toLowerCase();
 
         $('#search-menu a').each(function (index, value) {
 
@@ -19,5 +21,4 @@
             }
         });
     });
-
 });

@@ -2,7 +2,7 @@
 
     $('#search').keyup(function (event) {
 
-        let inputStr = $(this).attr('value').toLowerCase();
+        let inputStr = $(this).val().toLowerCase();
 
         $('#product-table tbody tr').each(function (index, value) {
 
@@ -19,5 +19,4 @@
             }
         });
     });
-
 });

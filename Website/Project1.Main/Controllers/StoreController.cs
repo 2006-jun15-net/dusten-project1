@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 
 using Project1.Business;
+using Project1.DataAccess.Model;
 using Project1.Main.Models;
 
 using System;
@@ -11,21 +12,25 @@ using System.Threading.Tasks;
 
 namespace Project1.Main.Controllers {
 
-    public class StoreController : LoggedController {
+    public class StoreController : Controller {
 
         private readonly IStoreRepository mStoreRepository;
         private readonly ICustomerOrderRepository mOrderRepository;
+        private readonly ILogger<StoreController> mLogger;
 
-        public StoreController (ILogger logger,
-                                IStoreRepository storeRepository, 
-                                ICustomerOrderRepository customerOrderRepository) : base (logger) {
+        public StoreController (IStoreRepository storeRepository, 
+                                ICustomerOrderRepository customerOrderRepository,
+                                ILogger<StoreController> logger) {
 
             mStoreRepository = storeRepository;
             mOrderRepository = customerOrderRepository;
+            mLogger = logger;
         }
 
         [HttpGet]
         public IActionResult Index (string name) {
+
+            mLogger.LogInformation ("Store/Index request");
 
             var store = mStoreRepository.FindByNameAsync (name).Result;
 
@@ -45,6 +50,8 @@ namespace Project1.Main.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> ListOrders (string name) {
+
+            mLogger.LogInformation ("Store/ListOrders request");
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
@@ -71,6 +78,8 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> NewOrder (string name) {
 
+            mLogger.LogInformation ("Store/NewOrder request");
+
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
             if (customer == default) {
@@ -93,6 +102,8 @@ namespace Project1.Main.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrder (List<OrderLineModel> lines, string storeName) {
+
+            mLogger.LogInformation ("Store/CreateOrder request");
 
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Invalid data sent" });

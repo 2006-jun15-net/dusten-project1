@@ -13,8 +13,12 @@ namespace Project1.DataAccess.Repository {
 
     public class CustomerRepository : Repository, ICustomerRepository {
 
-        public CustomerRepository (ILogger logger, Project0Context context) 
-            : base (logger, context) { }
+        private readonly ILogger<CustomerRepository> mLogger;
+
+        public CustomerRepository (ILogger<CustomerRepository> logger, 
+                                    Project0Context context) : base (context) { 
+            mLogger = logger;
+        }
 
         /// <summary>
         /// FOR UNIT TESTS ONLY!!!!
@@ -44,7 +48,7 @@ namespace Project1.DataAccess.Repository {
                 Lastname = names[1]
             });
 
-            mLogger.LogDebug (added.ToString ());
+            mLogger.LogInformation (added.ToString ());
 
             await mContext.SaveChangesAsync ();
 
@@ -57,7 +61,7 @@ namespace Project1.DataAccess.Repository {
         public virtual async Task<IEnumerable<CustomerModel>> FindAllAsync () {
 
             IQueryable<CustomerModel> selection = mContext.Customer.Select (c => new CustomerModel { Name = c.Firstname + " " + c.Lastname });
-            mLogger.LogDebug (selection.ToString ());
+            mLogger.LogInformation (selection.ToString ());
 
             return await selection.ToListAsync ();
         }
@@ -76,7 +80,7 @@ namespace Project1.DataAccess.Repository {
 
                 });
 
-            mLogger.LogDebug (selection.ToString ());
+            mLogger.LogInformation (selection.ToString ());
 
             return await selection.FirstOrDefaultAsync ();
         }

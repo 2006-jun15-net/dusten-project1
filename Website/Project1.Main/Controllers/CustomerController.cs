@@ -11,7 +11,7 @@ namespace Project1.Main.Controllers {
     /// <summary>
     /// Provides pages and requests relevant to a Customer's actions
     /// </summary>
-    public class CustomerController : LoggedController {
+    public class CustomerController : Controller {
 
         /// <summary>
         /// Key string to get the current CustomerModel object stored
@@ -22,17 +22,19 @@ namespace Project1.Main.Controllers {
         private readonly ICustomerRepository mCustomerRepository;
         private readonly IStoreRepository mStoreRepository;
         private readonly ICustomerOrderRepository mCustomerOrderRepository;
+        private readonly ILogger<CustomerController> mLogger;
 
-        public CustomerController (ILogger logger,
-                                    ICustomerRepository customerRepository,
+        public CustomerController (ICustomerRepository customerRepository,
                                     IStoreRepository storeRepository,
-                                    ICustomerOrderRepository customerOrderRepository) : base (logger) {
+                                    ICustomerOrderRepository customerOrderRepository,
+                                    ILogger<CustomerController> logger) {
 
             mCustomerRepository = customerRepository;
             mStoreRepository = storeRepository;
             mCustomerOrderRepository = customerOrderRepository;
+            mLogger = logger;
 
-            mLogger.LogDebug ("CustomerController instance created");
+            mLogger.LogInformation ("CustomerController instance created");
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> Index () {
 
-            mLogger.LogDebug ("Customer/Index request");
+            mLogger.LogInformation ("Customer/Index request");
 
             var customers = await mCustomerRepository.FindAllAsync ();
 
@@ -58,7 +60,7 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> Home () {
 
-            mLogger.LogDebug ("Customer/Home request");
+            mLogger.LogInformation ("Customer/Home request");
 
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
 
@@ -85,7 +87,7 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> Orders () {
 
-            mLogger.LogDebug ("Customer/Orders request");
+            mLogger.LogInformation ("Customer/Orders request");
 
             var customer = HttpContext.Session.Get<CustomerModel> (SESSION_KEY);
 
@@ -114,7 +116,7 @@ namespace Project1.Main.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
-            mLogger.LogDebug ("Customer/Login request");
+            mLogger.LogInformation ("Customer/Login request");
 
             if (!ModelState.IsValid) {
                 return Json (new { success = false, responseText = "Validation error" });
@@ -144,7 +146,7 @@ namespace Project1.Main.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create ([Bind ("Firstname", "Lastname")] CustomerViewModel customerView) {
 
-            mLogger.LogDebug ("Customer/Create request");
+            mLogger.LogInformation ("Customer/Create request");
 
             var firstname = customerView.Firstname;
             var lastname = customerView.Lastname;

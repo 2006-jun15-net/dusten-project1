@@ -15,7 +15,12 @@ namespace Project1.DataAccess.Repository {
     /// </summary>
     public class CustomerOrderRepository : Repository, ICustomerOrderRepository {
 
-        public CustomerOrderRepository (ILogger logger, Project0Context context) : base (logger, context) { }
+        private readonly ILogger<CustomerOrderRepository> mLogger;
+
+        public CustomerOrderRepository (ILogger<CustomerOrderRepository> logger, 
+                                        Project0Context context) : base (context) { 
+            mLogger = logger;
+        }
 
         /// <summary>
         /// FOR UNIT TESTS ONLY!!!!
@@ -50,7 +55,7 @@ namespace Project1.DataAccess.Repository {
                 }).ToList ()
             });
 
-            mLogger.LogDebug (added.ToString ());
+            mLogger.LogInformation (added.ToString ());
 
             await mContext.SaveChangesAsync ();
 
@@ -91,7 +96,7 @@ namespace Project1.DataAccess.Repository {
                 })
             });
 
-            mLogger.LogDebug (selection.ToString ());
+            mLogger.LogInformation (selection.ToString ());
 
             return await selection.ToListAsync ();
         }
@@ -131,7 +136,7 @@ namespace Project1.DataAccess.Repository {
                 })
             });
 
-            mLogger.LogDebug (selection.ToString ());
+            mLogger.LogInformation (selection.ToString ());
 
             return await selection.ToListAsync ();
         }

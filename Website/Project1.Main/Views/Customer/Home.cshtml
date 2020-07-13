@@ -15,7 +15,7 @@
         </a>
         <div id="search-menu" class="dropdown-menu" aria-labelledby="stores-dropdown">
 
-            <input id="search" type="text" class="form-control" placeholder="Search" />
+            <input id="search" type="text" class="form-control" placeholder="Search" aria-label="Search" />
 
             @foreach (var option in Model.StoreOptions) {
                 <a class="dropdown-item" href="/Store?name=@option" value="@option">@Html.DisplayFor(m => option)</a>

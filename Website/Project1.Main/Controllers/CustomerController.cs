@@ -158,7 +158,7 @@ namespace Project1.Main.Controllers {
                 Name = firstname + " " + lastname
             });
 
-            if (newCustomer == false) {
+            if (!newCustomer) {
                 return Json (new { success = false, responseText = $"Customer {firstname} {lastname} already exists!" });
             }
 

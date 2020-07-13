@@ -9,7 +9,7 @@ namespace Project1.Business {
 
         public ProductModel Product { get; set; }
 
-        [MinValue (0)]
+        [MinValueAttribute (0)]
         public int ProductQuantity { get; set; }
     }
 }

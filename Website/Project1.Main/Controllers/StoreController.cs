@@ -122,7 +122,7 @@ namespace Project1.Main.Controllers {
 
             var orderLines = lines.Where (l => l.ProductQuantity > 0);
 
-            if (orderLines.Count () == 0) {
+            if (!orderLines.Any ()) {
                 return Json (new { success = false, responseText = "Order contains no items" });
             }
 

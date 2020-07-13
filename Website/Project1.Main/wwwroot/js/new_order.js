@@ -58,35 +58,32 @@
         }
 
         if (lines.length == 0) {
-
             alert_warning('Order contains no items');
-            return false;
         }
 
-        if (totalItems > 20) {
-
+        else if (totalItems > 20) {
             alert_warning('Order contains too many items');
-            return false;
         }
 
-        formObj['lines'] = lines;
-        formObj['storeName'] = $('#Name').attr('value');
+        else {
 
-        console.log(formObj);
+            formObj['lines'] = lines;
+            formObj['storeName'] = $('#Name').attr('value');
 
-        $.post('/Store/CreateOrder', formObj, function (response) {
+            $.post('/Store/CreateOrder', formObj, function (response) {
 
-            if (response.success) {
-                alert_success(response.responseText);
-            }
+                if (response.success) {
+                    alert_success(response.responseText);
+                }
 
-            else {
-                alert_error(response.responseText);
-            }
+                else {
+                    alert_error(response.responseText);
+                }
 
-        }).fail(function () {
-            alert_error('Request failed');
-        })
+            }).fail(function () {
+                alert_error('Request failed');
+            });
+        }
 
         return false;
     });

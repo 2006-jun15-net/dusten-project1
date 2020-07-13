@@ -3,11 +3,11 @@ using System;
 
 namespace Project1.Business.Validation {
 
-    public class MinValue : ValidationAttribute {
+    public class MinValueAttribute : ValidationAttribute {
 
-        private int mMinValue;
+        private readonly int mMinValue;
 
-        public MinValue (int minValue) {
+        public MinValueAttribute (int minValue) {
             mMinValue = minValue;
         }
 

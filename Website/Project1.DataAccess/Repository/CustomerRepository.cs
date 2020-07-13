@@ -25,10 +25,10 @@ namespace Project1.DataAccess.Repository {
         /// <summary>
         /// Create new Customer entity in db from given model
         /// </summary>
-        /// <param name="customer"></param>
-        public virtual async Task<bool> AddAsync (CustomerModel customer) {
+        /// <param name="customerModel"></param>
+        public virtual async Task<bool> AddAsync (CustomerModel customerModel) {
 
-            string[] names = customer.Name.Split (" ");
+            string[] names = customerModel.Name.Split (" ");
 
             var firstname = names[0];
             var lastname = names[1];

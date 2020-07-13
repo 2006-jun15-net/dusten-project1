@@ -8,7 +8,7 @@ namespace Project1.Business {
     /// </summary>
     public class OrderLineModel {
 
-        [MinValue (0)]
+        [MinValueAttribute (0)]
         [Display (Name = "Quantity")]
         public int ProductQuantity { get; set; }
         public ProductModel Product { get; set; }

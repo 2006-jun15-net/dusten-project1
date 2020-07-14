@@ -6,7 +6,9 @@
 }
 
 @section navbar_items {
-
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/Store?name=@Model.StoreName">@Html.DisplayFor(m => m.StoreName)</a>
+    </li>
 }
 
 @{

@@ -5,18 +5,27 @@
 }
 
 @section navbar_items {
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/Store?name=@Model.Name">@Html.DisplayFor(m => m.Name)</a>
+    </li>
+}
 
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/new_order.js" asp-append-version="true"></script>
+    <script src="~/js/product_search.js" asp-append-version="true"></script>
 }
 
 @Html.HiddenFor(m => Model.Name)
 <h2>New Order at @Html.DisplayFor(m => Model.Name)</h2>
 <h4>(Max items per order: 20)</h4>
 
-<div style="margin-left: 25%;">
+<div style="margin-left: 10%; margin-top: 5%; width: 80%;">
 
     @{ await Html.RenderPartialAsync ("_Banners"); }
 
-    <input id="search" type="text" placeholder="Search" class="form-control" style="width: 50% !important;" />
+    <input id="search" type="text" placeholder="Search" class="form-control" style="width: 40% !important; margin-left: 0 !important; margin-bottom: 2%;" />
 
     <form id="new-order-form">
 
@@ -24,7 +33,7 @@
 
         <div class="form-group">
 
-            <table aria-describedby="available-products" id="product-table" class="table">
+            <table id="product-table" class="table">
 
                 <thead>
                     <tr>
@@ -49,8 +58,6 @@
 
             </table>
 
-            <div id="available-products">Products available at @Model.Name</div>
-
         </div>
 
         <span class="form-group">
@@ -60,7 +67,3 @@
 
     </form>
 </div>
-
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/js/new_order.js" asp-append-version="true"></script>

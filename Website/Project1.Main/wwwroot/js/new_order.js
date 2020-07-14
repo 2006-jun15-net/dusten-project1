@@ -72,12 +72,12 @@
 
             $.post('/Store/CreateOrder', formObj, function (response) {
 
-                if (response.success) {
-                    alert_success(response.responseText);
+                if (response.SuccessFlag) {
+                    alert_success(response.ResponseText);
                 }
 
                 else {
-                    alert_error(response.responseText);
+                    alert_error(response.ResponseText);
                 }
 
             }).fail(function () {

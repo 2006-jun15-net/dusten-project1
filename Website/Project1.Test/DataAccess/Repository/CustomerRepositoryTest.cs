@@ -1,71 +1,56 @@
-using Moq;
+using Microsoft.EntityFrameworkCore;
 using Project1.Business;
+using Project1.DataAccess.Model;
 using Project1.DataAccess.Repository;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Xunit;
 
 namespace Project1.Test.DataAccess.Repository {
 
     public class CustomerRepositoryTest {
 
-        private readonly CustomerRepository mCustomerRepository;
+        private readonly Project0Context mContext;
 
         public CustomerRepositoryTest () {
 
-            var mockCustomerRepo = new Mock<CustomerRepository> ();
+            mContext = new Project0Context (new DbContextOptionsBuilder<Project0Context> ()
+                .UseInMemoryDatabase (databaseName: "CustomerDatabase")
+                .Options);
 
-            List<CustomerModel> customers = new List<CustomerModel> () {
+            mContext.Database.EnsureDeleted ();
 
-                new CustomerModel {
-                    Name = "Test One"
-                },
+            mContext.Customer.Add (new Customer {
 
-                new CustomerModel {
-                    Name = "Test Two"
-                }
-            };
-
-            // Find all
-            mockCustomerRepo.Setup (
-                repo => repo.FindAllAsync ()
-            ).Returns (
-                async () => await Task.Run (() => customers)
-            );
-
-            // Find by name
-            mockCustomerRepo.Setup (
-                repo => repo.FindByNameAsync (It.IsAny<string> (), It.IsAny<string> ())
-            ).Returns (
-                async (string firstname, string lastname) =>
-                await Task.Run (() => customers.Where (c => c.Name == firstname + " " + lastname).FirstOrDefault ())
-            );
-
-            mCustomerRepository = mockCustomerRepo.Object;
+                Firstname = "Test",
+                Lastname = "One"
+            });
+            mContext.SaveChanges ();
         }
 
         [Fact]
-        public async void TestFindAll () {
+        public void TestFindAll () {
 
-            var allCustomers = await mCustomerRepository.FindAllAsync ();
+            var customerRepository = new CustomerRepository (null, mContext);
+            var allCustomers = customerRepository.FindAllAsync ().Result;
 
-            Assert.Equal (2, allCustomers.Count ());
+            Assert.Single (allCustomers);
         }
 
         [Fact]
-        public async void TestFindByNameSuccess () {
+        public void TestFindByNameSuccess () {
 
-            var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "One");
+            var customerRepository = new CustomerRepository (null, mContext);
+            var customerByName = customerRepository.FindByNameAsync ("Test", "One").Result;
 
             Assert.NotSame (default (CustomerModel), customerByName);
             Assert.Equal ("Test One", customerByName.Name);
         }
 
         [Fact]
-        public async void TestFindByNameFail () {
+        public void TestFindByNameFail () {
 
-            var customerByName = await mCustomerRepository.FindByNameAsync ("Test", "Three");
+            var customerRepository = new CustomerRepository (null, mContext);
+            var customerByName = customerRepository.FindByNameAsync ("Test", "Two").Result;
 
             Assert.Same (default (CustomerModel), customerByName);
         }

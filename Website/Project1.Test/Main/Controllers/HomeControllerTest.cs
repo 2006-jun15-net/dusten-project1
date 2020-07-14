@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project1.Main;
 using Project1.Main.Controllers;
 using Xunit;
 
@@ -16,7 +17,10 @@ namespace Project1.Test.Main.Controllers {
         public void KeepSessionAlive () {
 
             JsonResult request = mHomeController.KeepSessionAlive () as JsonResult;
+            JsonResponse jsonValue = (JsonResponse)request.Value;
+
             Assert.NotNull (request);
+            Assert.Equal (JsonResponse.Success, jsonValue);
         }
     }
 }

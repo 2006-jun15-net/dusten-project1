@@ -5,6 +5,7 @@ using Project1.Business;
 using Project1.DataAccess.Model;
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,16 +35,9 @@ namespace Project1.DataAccess.Repository {
         /// <param name="customerId"></param>
         /// <param name="storeId"></param>
         /// <returns></returns>
-        public virtual async Task<bool> AddAsync (CustomerOrderModel order, int? customerId, int storeId) {
-
-            if (customerId == null) {
-                return false;
-            }
+        public virtual async Task AddAsync (CustomerOrderModel order) {
 
             var added = mContext.CustomerOrder.Add (new CustomerOrder {
-
-                CustomerId = (int)customerId,
-                StoreId = storeId,
 
                 Timestamp = order.Timestamp,
 
@@ -55,11 +49,11 @@ namespace Project1.DataAccess.Repository {
                 }).ToList ()
             });
 
-            mLogger.LogInformation (added.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (added.ToString ());
+            }
 
             await mContext.SaveChangesAsync ();
-
-            return true;
         }
 
         /// <summary>
@@ -70,6 +64,8 @@ namespace Project1.DataAccess.Repository {
         public virtual async Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAsync (int? customerId) {
 
             if (customerId == null) {
+
+                Trace.WriteLine ("Shouldn't happen");
                 return new List<CustomerOrderModel> ();
             }
 
@@ -81,6 +77,8 @@ namespace Project1.DataAccess.Repository {
                 OrderNumber = c.Id,
                 Timestamp = c.Timestamp,
                 StoreName = c.Store.Name,
+
+                CustomerId = c.Customer.Id,
                 CustomerName = c.Customer.Firstname + " " + c.Customer.Lastname,
 
                 OrderLine = c.OrderLine.Select (o => new OrderLineModel {
@@ -96,7 +94,9 @@ namespace Project1.DataAccess.Repository {
                 })
             });
 
-            mLogger.LogInformation (selection.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.ToListAsync ();
         }
@@ -120,7 +120,11 @@ namespace Project1.DataAccess.Repository {
 
                 OrderNumber = c.Id,
                 Timestamp = c.Timestamp,
+
+                StoreId = c.Store.Id,
                 StoreName = c.Store.Name,
+
+                CustomerId = c.Customer.Id,
                 CustomerName = c.Customer.Firstname + " " + c.Customer.Lastname,
 
                 OrderLine = c.OrderLine.Select (o => new OrderLineModel {
@@ -136,7 +140,9 @@ namespace Project1.DataAccess.Repository {
                 })
             });
 
-            mLogger.LogInformation (selection.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.ToListAsync ();
         }

@@ -45,7 +45,9 @@ namespace Project1.DataAccess.Repository {
                 Lastname = names[1]
             });
 
-            mLogger.LogInformation (added.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (added.ToString ());
+            }
 
             await mContext.SaveChangesAsync ();
 
@@ -58,7 +60,10 @@ namespace Project1.DataAccess.Repository {
         public virtual async Task<IEnumerable<CustomerModel>> FindAllAsync () {
 
             IQueryable<CustomerModel> selection = mContext.Customer.Select (c => new CustomerModel { Name = c.Firstname + " " + c.Lastname });
-            mLogger.LogInformation (selection.ToString ());
+
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.ToListAsync ();
         }
@@ -77,7 +82,9 @@ namespace Project1.DataAccess.Repository {
 
                 });
 
-            mLogger.LogInformation (selection.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.FirstOrDefaultAsync ();
         }

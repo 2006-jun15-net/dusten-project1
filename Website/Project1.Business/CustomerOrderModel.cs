@@ -13,6 +13,8 @@ namespace Project1.Business {
         /// </summary>
         public const int MAX_PRODUCTS = 20;
 
+        public int CustomerId { get; set; }
+        public int StoreId { get; set; }
         public int OrderNumber { get; set; }
         public DateTime Timestamp { get; set; }
         public string StoreName { get; set; }

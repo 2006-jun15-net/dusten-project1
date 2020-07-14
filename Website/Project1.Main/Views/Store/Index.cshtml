@@ -14,9 +14,10 @@
 }
 
 <h1>@Model.Name</h1>
+<br />
 
-<h3>Products:</h3>
-<table class="table" aria-describedby="available-products">
+<h3 id="available-products">Products:</h3>
+<table aria-describedby="available-products" class="table">
 
     <thead>
         <tr>
@@ -38,8 +39,6 @@
     </tbody>
 
 </table>
-
-<div id="available-products">Products available at @Model.Name</div>
 
 @if (Model.HasCustomer) {
 

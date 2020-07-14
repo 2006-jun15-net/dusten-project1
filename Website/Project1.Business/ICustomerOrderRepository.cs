@@ -8,7 +8,7 @@ namespace Project1.Business {
     /// </summary>
     public interface ICustomerOrderRepository {
 
-        Task<bool> AddAsync (CustomerOrderModel order, int? customerId, int storeId);
+        Task AddAsync (CustomerOrderModel order);
         Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAsync (int? customerId);
         Task<IEnumerable<CustomerOrderModel>> FindOrdersByCustomerAndStoreAsync (int? customerId, int storeId);
     }

@@ -29,7 +29,7 @@ namespace Project1.Main.Controllers {
                 mLogger.LogInformation ("HomeController instance created");
             }
 
-            return Json (new { success = true });
+            return Json (JsonResponse.Success);
         }
 
         /// <summary>

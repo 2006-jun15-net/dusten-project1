@@ -27,11 +27,13 @@ namespace Project1.Main.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Index (string name) {
+        public async Task<IActionResult> Index (string name) {
 
-            mLogger.LogInformation ("Store/Index request");
+            if (mLogger != null) {
+                mLogger.LogInformation ("Store/Index request");
+            }
 
-            var store = mStoreRepository.FindByNameAsync (name).Result;
+            var store = await mStoreRepository.FindByNameAsync (name);
 
             if (store == default) {
                 return NotFound ();
@@ -50,7 +52,9 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> ListOrders (string name) {
 
-            mLogger.LogInformation ("Store/ListOrders request");
+            if (mLogger != null) {
+                mLogger.LogInformation ("Store/ListOrders request");
+            }
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
@@ -77,7 +81,9 @@ namespace Project1.Main.Controllers {
         [HttpGet]
         public async Task<IActionResult> NewOrder (string name) {
 
-            mLogger.LogInformation ("Store/NewOrder request");
+            if (mLogger != null) {
+                mLogger.LogInformation ("Store/NewOrder request");
+            }
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
@@ -102,47 +108,48 @@ namespace Project1.Main.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrder (List<OrderLineModel> lines, string storeName) {
 
-            mLogger.LogInformation ("Store/CreateOrder request");
+            if (mLogger != null) {
+                mLogger.LogInformation ("Store/CreateOrder request");
+            }
 
             if (!ModelState.IsValid) {
-                return Json (new { success = false, responseText = "Invalid data sent" });
+                return Json (new JsonResponse(false, "Invalid data sent"));
             }
 
             var customer = HttpContext.Session.Get<CustomerModel> (CustomerController.SESSION_KEY);
 
-            if (customer == default) {
-                return Json (new { success = false, responseText = "Access denied, not logged in" });
+            if (customer == default || customer.Id == null) {
+                return Json (new JsonResponse(false, "Access denied, not logged in"));
             }
 
             var store = await mStoreRepository.FindByNameAsync (storeName);
 
             if (store == default) {
-                return Json (new { success = false, responseText = $"Store '{storeName}' does not exist" });
+                return Json (new JsonResponse(false, $"Store '{storeName}' does not exist"));
             }
 
             var orderLines = lines.Where (l => l.ProductQuantity > 0);
 
             if (!orderLines.Any ()) {
-                return Json (new { success = false, responseText = "Order contains no items" });
+                return Json (new JsonResponse(false, "Order contains no items"));
             }
 
             var orderModel = new CustomerOrderModel {
 
-                OrderLine = orderLines,
-                Timestamp = DateTime.Now
+                CustomerId = Convert.ToInt32 (customer.Id),
+                StoreId = store.Id,
+
+                Timestamp = DateTime.Now,
+                OrderLine = orderLines
             };
 
             if (orderModel.ProductCount > CustomerOrderModel.MAX_PRODUCTS) {
-                return Json (new { success = false, responseText = "Order exceeds maximum quantity" });
+                return Json (new JsonResponse(false, "Order exceeds maximum quantity"));
             }
 
-            bool orderSuccess = await mOrderRepository.AddAsync (orderModel, customer.Id, store.Id);
+            await mOrderRepository.AddAsync (orderModel);
 
-            if (!orderSuccess) {
-                return Json (new { success = false, responseText = "Failed to place order (invalid data)" });
-            }
-
-            return Json (new { success = true, responseText = "Success" });
+            return Json (JsonResponse.Success);
         }
     }
 }

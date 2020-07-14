@@ -1,69 +1,69 @@
-﻿using Moq;
+﻿using Microsoft.EntityFrameworkCore;
+
 using Project1.Business;
+using Project1.DataAccess.Model;
 using Project1.DataAccess.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Xunit;
 
 namespace Project1.Test.DataAccess.Repository {
 
     public class StoreRepositoryTest {
 
-        private readonly StoreRepository mStoreRepository;
+        private readonly Project0Context mContext;
 
         public StoreRepositoryTest () {
 
-            var mockStoreRepo = new Mock<StoreRepository> ();
+            mContext = new Project0Context (new DbContextOptionsBuilder<Project0Context> ()
+                .UseInMemoryDatabase (databaseName: "StoreDatabase")
+                .Options);
 
-            List<StoreModel> stores = new List<StoreModel> () {
+            mContext.Database.EnsureDeleted ();
 
-                new StoreModel {
-                    Name = "Test"
+            mContext.Store.Add (new Store {
+
+                Name = "Test One",
+
+                StoreStock = new List<StoreStock> {
+
+                    new StoreStock {
+
+                        Product = new Product {
+                            Name = "Test Product"
+                        }
+                    }
                 }
-            };
-
-            // Find all
-            mockStoreRepo.Setup (
-                repo => repo.FindAllAsync ()
-            ).Returns (
-                async () => await Task.Run (() => stores)
-            );
-
-            // Find by name
-            mockStoreRepo.Setup (
-                repo => repo.FindByNameAsync (It.IsAny<string> ())
-            ).Returns (
-                async (string name) =>
-                await Task.Run (() => stores.Where (s => s.Name == name).FirstOrDefault ())
-            );
-
-            mockStoreRepo.SetupAllProperties ();
-
-            mStoreRepository = mockStoreRepo.Object;
+            });
+            mContext.SaveChanges ();
         }
 
         [Fact]
-        public async void TestFindAll () {
+        public void TestFindAll () {
 
-            var allStores = await mStoreRepository.FindAllAsync ();
+            var storeRepository = new StoreRepository (null, mContext);
+            var allStores = storeRepository.FindAllAsync ().Result;
 
             Assert.Single (allStores);
         }
 
         [Fact]
-        public async void TestFindByNameSuccess () {
+        public void TestFindByNameSuccess () {
 
-            var storeByName = await mStoreRepository.FindByNameAsync ("Test");
+            var storeRepository = new StoreRepository (null, mContext);
+            var storeByName = storeRepository.FindByNameAsync ("Test One").Result;
 
             Assert.NotSame (default (StoreModel), storeByName);
-            Assert.Equal ("Test", storeByName.Name);
+            Assert.Equal ("Test One", storeByName.Name);
         }
 
         [Fact]
-        public async void TestFindByNameFail () {
+        public void TestFindByNameFail () {
 
-            var storeByName = await mStoreRepository.FindByNameAsync ("Not a store");
+            var storeRepository = new StoreRepository (null, mContext);
+            var storeByName = storeRepository.FindByNameAsync ("Not a store").Result;
 
             Assert.Same (default (StoreModel), storeByName);
         }

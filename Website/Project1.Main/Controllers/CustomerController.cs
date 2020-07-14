@@ -118,7 +118,7 @@ namespace Project1.Main.Controllers {
             mLogger.LogInformation ("Customer/Login request");
 
             if (!ModelState.IsValid) {
-                return Json (new { success = false, responseText = "Validation error" });
+                return Json (new JsonResponse (false, "Validation error"));
             }
 
             var firstname = customerView.Firstname;
@@ -127,12 +127,12 @@ namespace Project1.Main.Controllers {
             var customer = await mCustomerRepository.FindByNameAsync (firstname, lastname);
 
             if (customer == default) {
-                return Json (new { success = false, responseText = $"Customer '{firstname} {lastname}' does not exists!" });
+                return Json (new JsonResponse(false, $"Customer '{firstname} {lastname}' does not exists!"));
             }
 
             HttpContext.Session.Set<CustomerModel> (SESSION_KEY, customer);
 
-            return Json (new { success = true, responseText = "Success!" });
+            return Json (JsonResponse.Success);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Project1.Main.Controllers {
             var lastname = customerView.Lastname;
 
             if (!ModelState.IsValid) {
-                return Json (new { success = false, responseText = "Validation error" });
+                return Json (new JsonResponse(false, "Validation error"));
             }
 
             var newCustomer = await mCustomerRepository.AddAsync (new CustomerModel {
@@ -159,10 +159,10 @@ namespace Project1.Main.Controllers {
             });
 
             if (!newCustomer) {
-                return Json (new { success = false, responseText = $"Customer {firstname} {lastname} already exists!" });
+                return Json (new JsonResponse(false, $"Customer {firstname} {lastname} already exists!"));
             }
 
-            return Json (new { success = true, responseText = "New user created!" });
+            return Json (new JsonResponse(true, "New user created!"));
         }
     }
 }

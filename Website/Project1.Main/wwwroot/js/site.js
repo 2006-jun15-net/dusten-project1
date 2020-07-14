@@ -7,7 +7,11 @@ function keep_session_alive() {
     $.ajax({
         type: 'POST',
         url: '/Home/KeepSessionAlive',
-        success: function () {
+        success: function (response) {
+
+            if (!response.SuccessFlag) {
+                // Error
+            }
             set_session_timeout();
         }
     })

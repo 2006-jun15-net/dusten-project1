@@ -31,7 +31,10 @@ namespace Project1.DataAccess.Repository {
         public virtual async Task<IEnumerable<StoreModel>> FindAllAsync () {
 
             IQueryable<StoreModel> selection = mContext.Store.Select (s => new StoreModel { Name = s.Name });
-            mLogger.LogInformation (selection.ToString ());
+
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.ToListAsync ();
         }
@@ -59,10 +62,11 @@ namespace Project1.DataAccess.Repository {
                     }),
                     Name = s.Name,
                     Id = s.Id
-
                 });
 
-            mLogger.LogInformation (selection.ToString ());
+            if (mLogger != null) {
+                mLogger.LogInformation (selection.ToString ());
+            }
 
             return await selection.FirstOrDefaultAsync ();
         }

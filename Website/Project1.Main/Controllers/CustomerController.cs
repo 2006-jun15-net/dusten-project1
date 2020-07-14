@@ -154,13 +154,17 @@ namespace Project1.Main.Controllers {
                 return Json (new JsonResponse(false, "Validation error"));
             }
 
-            var newCustomer = await mCustomerRepository.AddAsync (new CustomerModel {
+            var customer = new CustomerModel {
                 Name = firstname + " " + lastname
-            });
+            };
 
-            if (!newCustomer) {
+            bool isNewCustomer = await mCustomerRepository.AddAsync (customer);
+
+            if (!isNewCustomer) {
                 return Json (new JsonResponse(false, $"Customer {firstname} {lastname} already exists!"));
             }
+
+            HttpContext.Session.Set<CustomerModel> (SESSION_KEY, customer);
 
             return Json (new JsonResponse(true, "New user created!"));
         }

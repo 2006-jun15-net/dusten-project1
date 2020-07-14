@@ -39,6 +39,9 @@ namespace Project1.DataAccess.Repository {
 
             var added = mContext.CustomerOrder.Add (new CustomerOrder {
 
+                CustomerId = order.CustomerId,
+                StoreId = order.StoreId,
+
                 Timestamp = order.Timestamp,
 
                 OrderLine = order.OrderLine.Select (o => new OrderLine {

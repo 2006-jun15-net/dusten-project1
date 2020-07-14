@@ -9,8 +9,8 @@ function keep_session_alive() {
         url: '/Home/KeepSessionAlive',
         success: function (response) {
 
-            if (!response.SuccessFlag) {
-                // Error
+            if (!response.successFlag) {
+                console.log('An unexpected error occured');
             }
             set_session_timeout();
         }

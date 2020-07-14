@@ -6,8 +6,6 @@
 
         $('#product-table tbody tr').each(function (index, value) {
 
-            console.log(value);
-
             let textValue = $(this).find('tr#product-name').text().toLowerCase();
 
             if (textValue.indexOf(inputStr) > -1) {

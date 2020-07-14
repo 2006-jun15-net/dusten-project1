@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
 
-    console.log('ready');
-
     function alert_success(message) {
 
         $('#error-banner').css('display', 'none');
@@ -26,14 +24,16 @@
 
         $.post(url, formData, function (response) {
 
-            if (response.SuccessFlag) {
+            console.log(response);
 
-                alert_success(response.ResponseText);
+            if (response.successFlag) {
+
+                alert_success(response.responseText);
                 window.location.href = '/Customer/Home';
             }
 
             else {
-                alert_error(response.ResponseText);
+                alert_error(response.responseText);
             }
 
         }).fail(function () {
@@ -70,8 +70,6 @@
     $('#search-menu a').click(function (event) {
 
         event.preventDefault();
-
-        console.log('clicked')
 
         let names = $(this).attr('value').split(' ');
 

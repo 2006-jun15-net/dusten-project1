@@ -3,7 +3,7 @@ namespace Project1.Main {
 
     public class JsonResponse {
 
-        public static JsonResponse Success = new JsonResponse (true, "Success!");
+        public static readonly JsonResponse Success = new JsonResponse (true, "Success!");
 
         public bool SuccessFlag { get; private set; }
         public string ResponseText { get; private set; }

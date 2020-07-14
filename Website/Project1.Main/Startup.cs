@@ -5,9 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Project1.Business;
 using Project1.DataAccess.Model;
 using Project1.DataAccess.Repository;
+
 using System;
 using System.IO;
 
@@ -23,6 +25,8 @@ namespace Project1.Main {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
+
+            services.AddLogging ();
 
             services.AddDbContext<Project0Context> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
@@ -47,11 +51,9 @@ namespace Project1.Main {
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger) {
 
             // Middleware happens here
-
             var path = Directory.GetCurrentDirectory ();
-            var date = DateTime.Now;
 
-            logger.AddFile ($"{path}/logs/{date}.log");
+            logger.AddFile ($"{path}/logs/" + "{Date}.log");
 
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();

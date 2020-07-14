@@ -354,3 +354,6 @@ MigrationBackup/
 
 # SqlServer connection string
 .connection-string.txt
+
+# Log files
+*.log

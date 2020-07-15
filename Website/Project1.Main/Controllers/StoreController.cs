@@ -15,14 +15,17 @@ namespace Project1.Main.Controllers {
 
         private readonly IStoreRepository mStoreRepository;
         private readonly ICustomerOrderRepository mOrderRepository;
+        private readonly IStoreStockRepository mStoreStockRepository;
         private readonly ILogger<StoreController> mLogger;
 
         public StoreController (IStoreRepository storeRepository,
                                 ICustomerOrderRepository customerOrderRepository,
+                                IStoreStockRepository storeStockRepository,
                                 ILogger<StoreController> logger) {
 
             mStoreRepository = storeRepository;
             mOrderRepository = customerOrderRepository;
+            mStoreStockRepository = storeStockRepository;
             mLogger = logger;
         }
 
@@ -147,6 +150,12 @@ namespace Project1.Main.Controllers {
                 return Json (new JsonResponse(false, "Order exceeds maximum quantity"));
             }
 
+            foreach (var line in orderLines) {
+
+                if (!await mStoreStockRepository.RemoveQuantityAsync (line.Product.Name, store.Id, line.ProductQuantity)) {
+                    return Json (new JsonResponse (false, $"Quantity of product {line.Product.Name} exceeds available quantity"));
+                }
+            }
             await mOrderRepository.AddAsync (orderModel);
 
             return Json (JsonResponse.Success);

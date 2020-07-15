@@ -23,6 +23,7 @@ namespace Project1.Test.Main.Controllers {
 
             var mockStoreRepo = new Mock<StoreRepository> ();
             var mockOrderRepo = new Mock<CustomerOrderRepository> ();
+            var mockStockRepo = new Mock<StoreStockRepository> ();
             var mockHttpContext = new Mock<HttpContext> ();
 
             List<StoreModel> stores = new List<StoreModel> () {
@@ -30,7 +31,17 @@ namespace Project1.Test.Main.Controllers {
                 new StoreModel {
 
                     Id = 1,
-                    Name = "Test"
+                    Name = "Test",
+                    StoreStock = new List<StoreStockModel> {
+
+                        new StoreStockModel {
+
+                            ProductQuantity = 2,
+                            Product = new ProductModel {
+                                Name = "Test Product"
+                            }
+                        }
+                    }
                 }
             };
 
@@ -82,10 +93,24 @@ namespace Project1.Test.Main.Controllers {
                 await Task.Run (() => orders.Where (o => o.CustomerId == customerId && o.StoreId == storeId))
             );
 
+            mockStockRepo.Setup (
+                repo => repo.RemoveQuantityAsync (It.IsAny<string> (), It.IsAny<int> (), It.IsAny<int> ())
+            ).Returns (
+                async (string productName, int storeId, int quantity) =>
+                await Task.Run (() => {
+
+                    var storeStock = stores.Where (s => s.Id == storeId).Select (s => s.StoreStock).First ();
+                    storeStock.Where (s => s.Product.Name == productName).First ().ProductQuantity -= quantity;
+
+                    return true;
+                })
+            );
+
             mockStoreRepo.SetupAllProperties ();
             mockOrderRepo.SetupAllProperties ();
+            mockStockRepo.SetupAllProperties ();
 
-            mStoreController = new StoreController (mockStoreRepo.Object, mockOrderRepo.Object, null);
+            mStoreController = new StoreController (mockStoreRepo.Object, mockOrderRepo.Object, mockStockRepo.Object, null);
 
             var mockSession = new MockHttpSession ();
             mockSession[CustomerController.SESSION_KEY] = "{\"Id\":1,\"Name\":\"Test Customer\",\"LastVisited\":{\"Id\":0,\"Name\":null,\"StoreStock\":null}}";
@@ -108,7 +133,7 @@ namespace Project1.Test.Main.Controllers {
 
             Assert.Equal ("Test", model.Name);
             Assert.True (model.HasCustomer);
-            Assert.Same (default (IEnumerable<StoreStockModel>), model.Stock);
+            Assert.Single (model.Stock);
         }
 
         [Fact]
@@ -162,7 +187,12 @@ namespace Project1.Test.Main.Controllers {
             var orderLines = new List<OrderLineModel> {
 
                 new OrderLineModel {
-                    ProductQuantity = 1
+
+                    ProductQuantity = 1,
+
+                    Product = new ProductModel {
+                        Name = "Test Product"
+                    }
                 }
             };
 

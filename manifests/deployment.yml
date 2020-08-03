@@ -17,5 +17,11 @@ spec:
       containers:
         - name: dustenproject1 
           image: project1container.azurecr.io/dustenproject1
+          env: 
+          - name: DB_CONNECTION_STR
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: connection-str
           ports:
           - containerPort: 80

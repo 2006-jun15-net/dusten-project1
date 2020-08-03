@@ -16,6 +16,8 @@ using System.IO;
 namespace Project1.Main {
 
     public class Startup {
+		
+		private const string ConnectionStringKey = "DB_CONNECTION_STR"; //"SqlServer";
 
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
@@ -29,7 +31,8 @@ namespace Project1.Main {
             services.AddLogging ();
 
             services.AddDbContext<Project0Context> (options =>
-                 options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
+                 options.UseSqlServer (Environment.GetEnvironmentVariable (ConnectionStringKey));
+				 //Configuration.GetConnectionString (ConnectionStringKey)));
 
             services.AddScoped<ICustomerRepository, CustomerRepository> ();
             services.AddScoped<IStoreRepository, StoreRepository> ();

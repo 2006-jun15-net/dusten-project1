@@ -31,7 +31,7 @@ namespace Project1.Main {
             services.AddLogging ();
 
             services.AddDbContext<Project0Context> (options =>
-                 options.UseSqlServer (Environment.GetEnvironmentVariable (ConnectionStringKey));
+                 options.UseSqlServer (Environment.GetEnvironmentVariable (ConnectionStringKey)));
 				 //Configuration.GetConnectionString (ConnectionStringKey)));
 
             services.AddScoped<ICustomerRepository, CustomerRepository> ();

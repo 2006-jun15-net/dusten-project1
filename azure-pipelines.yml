@@ -68,10 +68,19 @@ stages:
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
               
-          - script: kubectl apply -f db-secret.yml
-            displayName: Apply secrets
-            workingDirectory: $(Pipeline.workspace)/manifests
-              
+          - task: Kubernetes@1
+            displayName: Apply secret
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'project1-aks-cluster-default'
+              command: 'apply'
+              arguments: '-f db-secrets.yml'
+              workingDirectory: $(Pipeline.Workspace)/manifests
+          
+          #- script: kubectl apply -f db-secret.yml
+          #  displayName: Apply secrets
+          #  workingDirectory: $(Pipeline.workspace)/manifests
+          
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:

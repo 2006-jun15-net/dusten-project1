@@ -68,14 +68,20 @@ stages:
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
               
+          - task: DownloadSecureFile@1
+            displayName: Download secrets file
+            name: dbSecretsFile
+            inputs:
+              secureFile: 'db-secrets.yml'
+              
           - task: Kubernetes@1
             displayName: Apply secret
             inputs:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'project1-aks-cluster-default'
               command: 'apply'
-              arguments: '-f db-secrets.yml'
-              workingDirectory: $(Pipeline.Workspace)/manifests
+              arguments: '-f $(dbSecretsFile.secureFilePath)'
+              #workingDirectory: $(Pipeline.Workspace)/manifests
           
           #- script: kubectl apply -f db-secret.yml
           #  displayName: Apply secrets
